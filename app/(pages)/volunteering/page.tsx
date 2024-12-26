@@ -46,7 +46,7 @@ export default function Page() {
           <h2 className="text-3xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)]">
             Volunteering
           </h2>
-          <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
+          <p className="text-lg mt-8 pb-8 font-[family-name:var(--font-geist-mono)]">
             {
               `When I was in high school, my experiences competing in the YMCA Model United Nations debate program
               in Hershey, PA were the most formative growth opportunities I had the privilege of participating in.
