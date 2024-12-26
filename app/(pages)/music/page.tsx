@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 // List of images in the gallery.
@@ -22,37 +23,55 @@ export default function Page() {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 4000); // 4 seconds
     return () => clearInterval(interval); // Cleanup interval on component unmount.
-  }, [images.length]);
+  }, []);
 
   return (
-    <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-mono)]">
+    <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-mono)] overflow-x-hidden">
       {/* Gallery */}
-      <div className="relative w-full h-[500px] overflow-hidden">
+      <div className="relative w-full h-[500px]">
         {images.map((image, index) => (
           <Image
             key={image}
             src={image}
             alt={`Slide ${index + 1}`}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            layout="fill"
+            objectFit="cover"
+            priority
+            className={`absolute transition-opacity duration-1000 ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
-            layout="fill"
           />
         ))}
       </div>
-
       {/* Main Content */}
-      <div className="flex flex-col text-left ml-4 py-4">
-        {/* Text */}
+      <div className="flex flex-col text-left px-8 py-4">
         <div>
-          {/* Name */}
           <h2 className="text-3xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)]">
             Music
           </h2>
-          {/* Description */}
-          <p className="text-lg pb-2 font-[family-name:var(--font-geist-mono)]">
-            I'm a musician, blah blah blah.
+          <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
+            This is a list of links to my most recent releases, available wherever you stream music!
           </p>
+          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
+            <Link href="https://distrokid.com/hyperfollow/hans14/be-honest-2">
+              be honest (2024)
+            </Link>
+          </h3>
+          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
+            <Link href="https://distrokid.com/hyperfollow/hans14/wrongright-feat-jani">
+              wrong?right! (2024)
+            </Link>
+          </h3>
+          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
+            <Link href="https://distrokid.com/hyperfollow/hans14/againagain-feat-plxsko">
+              again&again (2023)
+            </Link>
+          </h3>
+          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
+            <Link href="https://distrokid.com/hyperfollow/hans14/in-medias-res">
+              in medias res (2022)
+            </Link>
+          </h3>
         </div>
       </div>
     </div>
