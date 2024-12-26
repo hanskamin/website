@@ -1,16 +1,39 @@
 "use client";
 
+import { Release } from "@/app/data/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// List of images in the gallery.
 const images = [
   "/concert0.jpg",
   "/concert1.jpg",
   "/concert2.jpg",
   "/concert3.jpg",
   "/concert4.jpg",
+];
+
+const releases: Release[] = [
+  {
+    title: "be honest",
+    year: 2024,
+    link: "https://distrokid.com/hyperfollow/hans14/be-honest-2",
+  },
+  {
+    title: "wrong?right!",
+    year: 2024,
+    link: "https://distrokid.com/hyperfollow/hans14/wrongright-feat-jani",
+  },
+  {
+    title: "again&again",
+    year: 2023,
+    link: "https://distrokid.com/hyperfollow/hans14/againagain-feat-plxsko",
+  },
+  {
+    title: "in medias res",
+    year: 2022,
+    link: "https://distrokid.com/hyperfollow/hans14/in-medias-res",
+  },
 ];
 
 export default function Page() {
@@ -52,26 +75,18 @@ export default function Page() {
           <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
             This is a list of links to my most recent releases, available wherever you stream music!
           </p>
-          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
-            <Link href="https://distrokid.com/hyperfollow/hans14/be-honest-2">
-              be honest (2024)
-            </Link>
-          </h3>
-          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
-            <Link href="https://distrokid.com/hyperfollow/hans14/wrongright-feat-jani">
-              wrong?right! (2024)
-            </Link>
-          </h3>
-          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
-            <Link href="https://distrokid.com/hyperfollow/hans14/againagain-feat-plxsko">
-              again&again (2023)
-            </Link>
-          </h3>
-          <h3 className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline ">
-            <Link href="https://distrokid.com/hyperfollow/hans14/in-medias-res">
-              in medias res (2022)
-            </Link>
-          </h3>
+          {
+            releases.map((release: Release, idx: number) => (
+              <h3 
+                key={`release-${idx}`}
+                className="text-2xl font-semibold pb-2 font-[family-name:var(--font-geist-mono)] hover:underline"
+              >
+                <Link href={release.link}>
+                  {`${release.title} (${release.year})`}
+                </Link>
+              </h3>
+            ))
+          }
         </div>
       </div>
     </div>
