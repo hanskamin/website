@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Button from './ui/Button';
+import profile from "@/public/static/images/profile.jpeg"
 
 export default function Home() {
   return (
@@ -9,7 +10,7 @@ export default function Home() {
         {/* Profile Image */}
         <div className="mb-4 relative flex justify-center">
           <Image
-            src="/profile.jpeg"
+            src={profile}
             alt="Hans Kamin"
             className="rounded-full shadow-lg w-auto h-auto"
             width={250}

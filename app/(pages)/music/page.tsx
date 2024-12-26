@@ -4,13 +4,19 @@ import { Release } from "@/app/data/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+// Image imports.
+import concert0 from "@/public/static/images/concert0.jpeg";
+import concert1 from "@/public/static/images/concert1.jpeg";
+import concert2 from "@/public/static/images/concert2.jpeg";
+import concert3 from "@/public/static/images/concert3.jpeg";
+import concert4 from "@/public/static/images/concert4.jpeg";
 
 const images = [
-  "/static/images/concert0.jpg",
-  "/static/images/concert1.jpg",
-  "/static/images/concert2.jpg",
-  "/static/images/concert3.jpg",
-  "/static/images/concert4.jpg",
+  concert0,
+  concert1,
+  concert2,
+  concert3,
+  concert4,
 ];
 
 const releases: Release[] = [
@@ -54,7 +60,7 @@ export default function Page() {
       <div className="relative w-full h-[500px]">
         {images.map((image, index) => (
           <Image
-            key={image}
+            key={`concert-${index}`}
             src={image}
             alt={`Slide ${index + 1}`}
             layout="fill"

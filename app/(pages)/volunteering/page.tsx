@@ -2,12 +2,17 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+// Image imports.
+import mun1 from "@/public/static/images/mun1.jpeg";
+import cona from "@/public/static/images/cona.jpeg";
+import mun0 from "@/public/static/images/mun0.jpeg";
+import conaSunset from "@/public/static/images/cona-sunset.jpeg";
 
 const images = [
-  "/static/images/mun1.jpg",
-  "/static/images/cona.jpeg",
-  "/static/images/mun0.jpg",
-  "/static/images/cona-sunset.jpeg",
+  mun1,
+  cona,
+  mun0,
+  conaSunset,
 ];
 
 export default function Page() {
@@ -28,7 +33,7 @@ export default function Page() {
       <div className="relative w-full h-[650px]">
         {images.map((image, index) => (
           <Image
-            key={image}
+            key={`img-${index}`}
             src={image}
             alt={`Slide ${index + 1}`}
             layout="fill"
