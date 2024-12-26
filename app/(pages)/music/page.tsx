@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const images = [
-  "/concert0.jpg",
-  "/concert1.jpg",
-  "/concert2.jpg",
-  "/concert3.jpg",
-  "/concert4.jpg",
+  "/static/images/concert0.jpg",
+  "/static/images/concert1.jpg",
+  "/static/images/concert2.jpg",
+  "/static/images/concert3.jpg",
+  "/static/images/concert4.jpg",
 ];
 
 const releases: Release[] = [

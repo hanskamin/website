@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const images = [
-  "/mun1.jpg",
-  "/cona.jpeg",
-  "/mun0.jpg",
-  "/cona-sunset.jpeg",
+  "/static/images/mun1.jpg",
+  "/static/images/cona.jpeg",
+  "/static/images/mun0.jpg",
+  "/static/images/cona-sunset.jpeg",
 ];
 
 export default function Page() {
