@@ -15,7 +15,7 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-[family-name:var(--font-geist-mono)]">
+    <div className="relative min-h-screen overflow-hidden font-[family-name:var(--font-geist-mono)]">
       {/* Hamburger Button */}
       <button
         onClick={toggleMenu}
@@ -56,7 +56,7 @@ export default function PagesLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* Main Content */}
-      <main className="w-full max-w-4xl mx-auto">{children}</main>
+      <main className="w-full">{children}</main>
     </div>
   );
 }
