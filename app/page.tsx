@@ -39,7 +39,7 @@ export default function Home() {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
           <Button
-            className="py-4 px-6 rounded-full"
+            className="py-4 px-6 text-white rounded-full"
             title={"👨🏾‍🎤 Music"}
             route={"/music"}
           />
@@ -49,7 +49,7 @@ export default function Home() {
             route={"/software"}
           />
           <Button
-            className="py-4 px-6 rounded-full"
+            className="py-4 px-6 text-white rounded-full"
             title={"🇺🇳 Volunteering"}
             route={"/volunteering"}
           />
