@@ -53,22 +53,20 @@ export default function Page() {
           </h2>
           <p className="text-lg mt-8 pb-8 font-[family-name:var(--font-geist-mono)]">
             {
-              `When I was in high school, my experiences competing in the YMCA Model United Nations debate program
-              in Hershey, PA were the most formative growth opportunities I had the privilege of participating in.
-              Since 2018, I've been fortunate enough to serve alongside other program alumni as a volunteer leadership
-              staff member, mentoring high schoolers as they navigate the myriad challenges that come with organizing,
-              executing, and competing in a debate competition with peers from all over the tri-state area.`
-            }
+              `When I was in high school, my time competing in the YMCA Model United Nations debate program
+              in Hershey, PA was the most formative growth opportunity I had the privilege of experiencing.
+              Since 2018, I've been fortunate enough to volunteer alongside other program alumni as a leadership staff member,
+              mentoring high schoolers as they navigate the myriad challenges that come with organizing, executing,
+              and competing in a debate competition with peers from all over the tri-state area.`}
           </p>
           <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
             {
               `Furthermore, I have the distinct honor of serving as a national trip director for the program's most impressive
-              participants. Each summer, I chaperone our 25 best & brightest students on a trip to the national
-              competition in Blue Ridge, NC. Our students spend an entire week meeting,
-              befriending, and debating others from a wide variety of upbringings, backgrounds, and ways of life that are
-              completely different from their own. At a time when the American political system feels more vitriolic than ever,
+              participants. Each summer, I chaperone our 25 best & brightest students to the Conference on National Affairs in Blue Ridge, NC.
+              Our students spend an entire week meeting, befriending, and debating high schoolers from a wide variety of upbringings,
+              backgrounds, and ways of life that are completely different from their own. American politics are as vitriolic as ever --
               I believe it's never been more important for young people to learn how to empathize & engage with belief systems
-              that challenge their own, and I find immense joy in facilitating that opportunity every year.`
+              that challenge their own, and I find immense joy in facilitating that opportunity for them every year.`
             }
           </p>
         </div>

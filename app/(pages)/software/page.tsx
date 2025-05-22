@@ -8,24 +8,29 @@ export default function Page() {
           Software
         </h2>
         <p className="text-lg mt-8 pb-8 font-[family-name:var(--font-geist-mono)]">
+          {`I'm a fullstack software engineer well-versed in many languages & frameworks, 
+            most notably React, React Native, Node, and Python. Presently, I'm an engineer at `}
+            <Link href={"https://reflex.careers"} className="underline text-blue-500">{`Reflex`}</Link>
+            {`, building the future of retail work to unlock flexibility for both workers & employers.`}
+        </p>
+        <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
           {
-            `I'm a fullstack software engineer strongly versed in a wide variety of languages & frameworks.
-            Presently, I'm a contract software engineer at Hitch, building out a redesign of their web app's booking system.`
+            `I studied computer science at Cal Poly SLO from 2015 to 2019. From there, I began my career as an
+            engineer at Walmart in Austin, TX. In my four years at Walmart, I spent most of my time building in
+            React and React Native, but also wrote a ton of Node on the backend.`
           }
         </p>
         <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
           {
-            `I studied computer science at Cal Poly SLO from 2015 to 2019. From there, I began my career as an entry-level software
-            engineer at Walmart. In my four years at Walmart, I spent most of my time building in React and React Native, but wrote
-            a ton of Node on the backend as well.`
-          }
-        </p>
-        <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
-          {
-            `After my time with Walmart came to a close, I joined DPP Tech to work as the first engineering hire at a pre-seed
-            AI startup they were incubating. I led all product and engineering development from scratch, sculpting & shipping the MVP
-            to a rapidly growing set of beta users in Miami, FL.`
-          }
+            `After my time with Walmart came to a close, I joined `}
+            <Link href={"https://dpptech.com"} className="underline text-blue-500">{`DPP Tech`}</Link>
+            {` to work as the first hire at a pre-seed AI startup they were incubating. I led all product and engineering
+            development from scratch, sculpting & shipping the MVP to a rapidly growing set of beta users in Miami, FL.`}
+            {` From there, I went on to join `}
+            <Link href={"https://hitch.com"} className="underline text-blue-500">{`Hitch`}</Link>
+            {` to build & ship the latest redesign of their web app's `}
+            <Link href={"https://hitch.com/book"} className="underline text-blue-500">{`booking system`}</Link>
+            {`.`}
         </p>
         <p className="text-lg pb-8 font-[family-name:var(--font-geist-mono)]">
           {`If you'd like to connect, you can reach me through my `}

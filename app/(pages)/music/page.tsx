@@ -79,7 +79,7 @@ export default function Page() {
             Music
           </h2>
           <p className="text-lg mt-8 pb-8 font-[family-name:var(--font-geist-mono)]">
-            This is a list of links to my most recent releases, available wherever you stream music!
+            Links to my most recent releases, available wherever you stream music!
           </p>
           {
             releases.map((release: Release, idx: number) => (
