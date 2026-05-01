@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Raleway } from "next/font/google";
 import "./globals.css";
 import clsx from "clsx";
+import GradientBackground from "./ui/GradientBackground";
+import Nav from "./ui/Nav";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -36,7 +38,9 @@ export default function RootLayout({
           "font-sans bg-midnight text-frost min-h-screen antialiased",
         )}
       >
-        {children}
+        <GradientBackground />
+        <Nav />
+        <main className="relative z-10">{children}</main>
       </body>
     </html>
   );
