@@ -1,60 +1,83 @@
-import Image from 'next/image';
-import Button from './ui/Button';
-import profile from "@/public/static/images/profile.jpeg"
+import Image from "next/image";
+import Button from "./ui/Button";
+import Container from "./ui/Container";
+import Section from "./ui/Section";
+import Reveal from "./ui/Reveal";
+import profile from "@/public/static/images/profile.jpeg";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen font-[family-name:var(--font-geist-mono)]">
-      {/* Main Content Wrapper */}
-      <div className="flex flex-col items-center text-center">
-        {/* Profile Image */}
-        <div className="mb-4 relative flex justify-center">
-          <Image
-            src={profile}
-            alt="Hans Kamin"
-            className="rounded-full shadow-lg w-auto h-auto"
-            width={250}
-            height={250}
-          />
-        </div>
+    <>
+      <section className="min-h-[80vh] flex items-center py-16 md:py-24">
+        <Container className="flex flex-col gap-elem">
+          <Reveal className="flex items-center gap-elem">
+            <Image
+              src={profile}
+              alt=""
+              width={64}
+              height={64}
+              priority
+              className="rounded-full w-12 h-12 md:w-16 md:h-16 object-cover ring-1 ring-white/20"
+            />
+            <span className="text-caption uppercase tracking-[0.2em] text-whisper">
+              New York, NY
+            </span>
+          </Reveal>
 
-        {/* Text */}
-        <div className='py-4'>
-          {/* Name */}
-          <h1 className="text-3xl font-semibold pb-2">
-            Hans
-          </h1>
+          <Reveal delay={0.05}>
+            <h1
+              className="font-display text-frost leading-[0.85] break-words text-gradient-ocean"
+              style={{ fontSize: "clamp(72px, 18vw, 225px)" }}
+            >
+              Hans
+            </h1>
+          </Reveal>
 
-          {/* Location */}
-          <p className="text-lg pb-2">
-            New York, NY
-          </p>
+          <Reveal delay={0.1}>
+            <p className="text-sub md:text-h-sm text-whisper max-w-[40ch] leading-[1.3]">
+              Musician. Tennis player. Developer.
+            </p>
+          </Reveal>
 
-          {/* Bio */}
-          <p className="text-md pb-5">
-            Musician, Tennis Player, Developer
-          </p>
-        </div>
+          <Reveal delay={0.2} className="pt-elem">
+            <div className="flex flex-col sm:flex-row gap-elem">
+              <Button href="/music" variant="ghost" fullWidth>
+                Music
+              </Button>
+              <Button href="/software" variant="ghost" fullWidth>
+                Software
+              </Button>
+              <Button href="/volunteering" variant="ghost" fullWidth>
+                Volunteering
+              </Button>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
-          <Button
-            className="py-4 px-6 text-white rounded-full"
-            title={"👨🏾‍🎤 Music"}
-            route={"/music"}
-          />
-          <Button
-            className="py-4 px-6 text-white rounded-full"
-            title={"👨🏾‍💻 Software"}
-            route={"/software"}
-          />
-          <Button
-            className="py-4 px-6 text-white rounded-full"
-            title={"🇺🇳 Volunteering"}
-            route={"/volunteering"}
-          />
-        </div>
-      </div>
-    </div>
+      <Section>
+        <Container>
+          <Reveal>
+            <div className="flex flex-col gap-elem border-t border-white/10 pt-10">
+              <span className="text-caption uppercase tracking-[0.2em] text-whisper">
+                Currently
+              </span>
+              <p className="text-sub text-frost">
+                Software engineer at{" "}
+                <a
+                  href="https://reflex.dev"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-4 decoration-misty hover:decoration-frost transition-colors"
+                >
+                  Reflex
+                </a>
+                . Writing music between sets. Building things at the edges.
+              </p>
+            </div>
+          </Reveal>
+        </Container>
+      </Section>
+    </>
   );
 }
