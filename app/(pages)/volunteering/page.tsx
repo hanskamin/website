@@ -1,103 +1,237 @@
-import Image from "next/image";
-import Container from "@/app/ui/Container";
-import Section from "@/app/ui/Section";
-import Hero from "@/app/ui/Hero";
-import Reveal from "@/app/ui/Reveal";
+"use client";
+
+import { useEffect, useState } from "react";
+import Image, { type StaticImageData } from "next/image";
+import SectionHead from "@/app/ui/SectionHead";
+import Window from "@/app/ui/Window";
 import mun1 from "@/public/static/images/mun1.jpeg";
 import cona from "@/public/static/images/cona.jpeg";
 import mun0 from "@/public/static/images/mun0.jpeg";
 import conaSunset from "@/public/static/images/cona-sunset.jpeg";
 
-export default function Page() {
-  return (
-    <>
-      <Section className="!pt-10 md:!pt-16">
-        <Container>
-          <Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-elem">
-              <div className="md:col-span-2 relative aspect-[4/3] md:aspect-[3/2] overflow-hidden rounded-card">
-                <Image
-                  src={mun1}
-                  alt=""
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 66vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative aspect-[4/3] md:aspect-auto md:min-h-[300px] overflow-hidden rounded-card">
-                <Image
-                  src={conaSunset}
-                  alt=""
-                  fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
+const VOL_IMAGES: StaticImageData[] = [mun1, cona, mun0, conaSunset];
 
-      <Hero
-        eyebrow="Volunteering"
-        title="YMCA Model UN"
-        subtitle="Mentor & national trip director, Conference on National Affairs."
-        className="!min-h-0 !py-0"
+export default function VolunteeringPage() {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(
+      () => setIdx((i) => (i + 1) % VOL_IMAGES.length),
+      4200,
+    );
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <div className="page-enter page-pad">
+      <SectionHead
+        kicker="// CHANNEL 03"
+        title="VOLUNTEERING"
+        sub="Mentoring high schoolers through the YMCA Model United Nations program — alumni staff since 2018."
       />
 
-      <Section>
-        <Container>
-          <Reveal>
-            <div className="flex flex-col gap-elem max-w-[68ch] text-sub text-whisper">
-              <p>
-                When I was in high school, my time competing in the YMCA Model
-                United Nations debate program in Hershey, PA was the most
-                formative growth opportunity I had the privilege of
-                experiencing. Since 2018 I&rsquo;ve volunteered alongside other
-                program alumni as a leadership staff member, mentoring high
-                schoolers as they navigate the myriad challenges that come with
-                organizing, executing, and competing in a debate competition
-                with peers from all over the tri-state area.
-              </p>
-              <p>
-                I also serve as a national trip director for the program&rsquo;s
-                most impressive participants. Each summer I chaperone our 25
-                best and brightest students to the Conference on National
-                Affairs in Blue Ridge, NC. Our students spend a full week
-                meeting, befriending, and debating high schoolers from a wide
-                variety of upbringings, backgrounds, and ways of life
-                completely different from their own. American politics are as
-                vitriolic as ever &mdash; I believe it&rsquo;s never been more
-                important for young people to learn how to empathize and engage
-                with belief systems that challenge their own, and I find
-                immense joy in facilitating that opportunity for them every
-                year.
-              </p>
+      <div
+        className="vol-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+          gap: 32,
+          alignItems: "start",
+        }}
+      >
+        <div>
+          {/* Stacked image carousel */}
+          <div style={{ position: "relative", aspectRatio: "4/5" }}>
+            {VOL_IMAGES.map((src, i) => (
+              <div
+                key={i}
+                className="frame"
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  transform:
+                    i === idx
+                      ? "rotate(0deg) scale(1)"
+                      : `rotate(${(i - idx) * 3}deg) scale(.97)`,
+                  opacity: i === idx ? 1 : 0.25,
+                  transition: "all 1s cubic-bezier(.2,.7,.2,1)",
+                  zIndex: i === idx ? 5 : 1,
+                }}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  placeholder="blur"
+                  sizes="(min-width: 900px) 40vw, 100vw"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            ))}
+            <div
+              className="tiny"
+              style={{
+                position: "absolute",
+                left: 12,
+                bottom: 12,
+                zIndex: 10,
+                color: "var(--accent-3)",
+                textShadow: "0 0 8px var(--accent-3)",
+              }}
+            >
+              ▸ FRAME {String(idx + 1).padStart(2, "0")} /{" "}
+              {String(VOL_IMAGES.length).padStart(2, "0")}
             </div>
-          </Reveal>
-        </Container>
-      </Section>
+          </div>
 
-      <Section>
-        <Container>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-elem">
-            {[cona, mun0, conaSunset].map((img, idx) => (
-              <Reveal key={idx} delay={idx * 0.05}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-card group">
-                  <Image
-                    src={img}
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  />
-                </div>
-              </Reveal>
+          <div
+            style={{
+              display: "flex",
+              gap: 6,
+              marginTop: 16,
+              justifyContent: "center",
+            }}
+          >
+            {VOL_IMAGES.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIdx(i)}
+                aria-label={`frame ${i + 1}`}
+                style={{
+                  width: 24,
+                  height: 6,
+                  borderRadius: 1,
+                  border: 0,
+                  background:
+                    i === idx
+                      ? "var(--accent-3)"
+                      : "color-mix(in oklch, var(--accent-3) 25%, transparent)",
+                  boxShadow: i === idx ? "0 0 8px var(--accent-3)" : "none",
+                  transition: "var(--t-fast)",
+                  cursor: "pointer",
+                }}
+              />
             ))}
           </div>
-        </Container>
-      </Section>
-    </>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <Window title="program.dat" accent="var(--accent-3)">
+            <p
+              style={{
+                color: "var(--fg)",
+                fontSize: 14,
+                lineHeight: 1.85,
+                margin: 0,
+              }}
+            >
+              When I was in high school, my time competing in the YMCA Model
+              United Nations debate program in Hershey, PA was the most
+              formative growth opportunity I had the privilege of experiencing.
+              Since 2018, I&rsquo;ve been fortunate enough to volunteer
+              alongside other program alumni as a leadership staff member,
+              mentoring high schoolers as they navigate the myriad challenges
+              that come with organizing, executing, and competing in a debate
+              competition with peers from all over the tri-state area.
+            </p>
+          </Window>
+
+          <Window title="trip.director" accent="var(--accent)">
+            <p
+              style={{
+                color: "var(--fg)",
+                fontSize: 14,
+                lineHeight: 1.85,
+                margin: 0,
+              }}
+            >
+              I have the distinct honor of serving as a national trip director
+              for the program&rsquo;s most impressive participants. Each
+              summer, I chaperone our 25 best & brightest students to the{" "}
+              <span style={{ color: "var(--accent)" }}>
+                Conference on National Affairs
+              </span>{" "}
+              in Blue Ridge, NC.
+            </p>
+            <p
+              style={{
+                color: "var(--fg-dim)",
+                fontSize: 13,
+                lineHeight: 1.85,
+                margin: "12px 0 0",
+              }}
+            >
+              Our students spend an entire week meeting, befriending, and
+              debating high schoolers from a wide variety of upbringings,
+              backgrounds, and ways of life that are completely different from
+              their own. American politics are as vitriolic as ever — I believe
+              it&rsquo;s never been more important for young people to learn
+              how to empathize & engage with belief systems that challenge
+              their own, and I find immense joy in facilitating that
+              opportunity for them every year.
+            </p>
+          </Window>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              gap: 12,
+            }}
+          >
+            <StatBox big="08" label="Summers" accent="var(--accent-3)" />
+            <StatBox big="25" label="Students / yr" accent="var(--accent)" />
+            <StatBox big="∞" label="Hours debated" accent="var(--accent-2)" />
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .vol-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function StatBox({
+  big,
+  label,
+  accent,
+}: {
+  big: string;
+  label: string;
+  accent: string;
+}) {
+  return (
+    <div
+      style={{
+        padding: "16px 12px",
+        textAlign: "center",
+        border: `1px solid color-mix(in oklch, ${accent} 50%, transparent)`,
+        background: `linear-gradient(180deg, color-mix(in oklch, ${accent} 18%, var(--panel-1)), var(--panel-2))`,
+        boxShadow: `inset 0 0 18px color-mix(in oklch, ${accent} 12%, transparent)`,
+      }}
+    >
+      <div
+        className="font-display-tube"
+        style={{
+          fontSize: 36,
+          color: accent,
+          textShadow: `0 0 10px ${accent}`,
+          lineHeight: 1,
+        }}
+      >
+        {big}
+      </div>
+      <div className="eyebrow" style={{ marginTop: 8 }}>
+        {label}
+      </div>
+    </div>
   );
 }

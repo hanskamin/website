@@ -1,83 +1,196 @@
 import Image from "next/image";
-import Button from "./ui/Button";
-import Container from "./ui/Container";
-import Section from "./ui/Section";
-import Reveal from "./ui/Reveal";
+import Link from "next/link";
 import profile from "@/public/static/images/profile.jpeg";
+import StatusRow from "./ui/StatusRow";
 
 export default function Home() {
   return (
-    <>
-      <section className="min-h-[80vh] flex items-center py-16 md:py-24">
-        <Container className="flex flex-col gap-elem">
-          <Reveal className="flex items-center gap-elem">
+    <div className="page-enter page-pad" style={{ paddingTop: 32 }}>
+      <div
+        className="eyebrow"
+        style={{
+          color: "var(--accent-2)",
+          textShadow: "0 0 6px var(--accent-2)",
+          marginBottom: 18,
+        }}
+      >
+        ▸ SELECT CHANNEL ▸ PRESS ENTER
+      </div>
+
+      <div
+        className="home-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(12, 1fr)",
+          gridAutoRows: "minmax(110px, auto)",
+          gap: 12,
+        }}
+      >
+        <div
+          className="home-grid-hero"
+          style={{
+            gridColumn: "span 8",
+            gridRow: "span 3",
+            padding: "30px 30px 24px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            border:
+              "1px solid color-mix(in oklch, var(--accent) 55%, transparent)",
+            background:
+              "linear-gradient(135deg, color-mix(in oklch, var(--accent) 22%, var(--panel-1)) 0%, var(--panel-2) 70%)",
+            boxShadow:
+              "inset 0 0 32px color-mix(in oklch, var(--accent) 15%, transparent), 0 0 24px color-mix(in oklch, var(--accent) 20%, transparent)",
+          }}
+        >
+          <div className="eyebrow">▸ ID — 01</div>
+          <h1
+            className="font-display-tube chrome-text"
+            style={{
+              fontSize: "clamp(60px, 9vw, 140px)",
+              margin: 0,
+              lineHeight: 0.9,
+            }}
+          >
+            HANS
+            <br />
+            KAMIN
+          </h1>
+          <div className="tiny" style={{ color: "var(--fg-dim)" }}>
+            SAN LUIS OBISPO → AUSTIN → NEW YORK CITY
+          </div>
+        </div>
+
+        <div
+          className="home-grid-portrait"
+          style={{ gridColumn: "span 4", gridRow: "span 3" }}
+        >
+          <div className="frame" style={{ width: "100%", height: "100%" }}>
             <Image
               src={profile}
-              alt=""
-              width={64}
-              height={64}
+              alt="Hans"
+              placeholder="blur"
               priority
-              className="rounded-full w-12 h-12 md:w-16 md:h-16 object-cover ring-1 ring-white/20"
+              sizes="(min-width: 768px) 33vw, 100vw"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
-            <span className="text-caption uppercase tracking-[0.2em] text-whisper">
-              New York, NY
-            </span>
-          </Reveal>
+          </div>
+        </div>
 
-          <Reveal delay={0.05}>
-            <h1
-              className="font-display text-frost leading-[0.85] break-words text-gradient-ocean"
-              style={{ fontSize: "clamp(72px, 18vw, 225px)" }}
-            >
-              Hans
-            </h1>
-          </Reveal>
+        <GridTile
+          href="/music"
+          label="01 / MUSIC"
+          big="4 RELEASES"
+          accent="var(--accent)"
+          span={3}
+        />
+        <GridTile
+          href="/software"
+          label="02 / SOFTWARE"
+          big="REFLEX"
+          accent="var(--accent-2)"
+          span={3}
+        />
+        <GridTile
+          href="/volunteering"
+          label="03 / MUN"
+          big="ALUMNI STAFF"
+          accent="var(--accent-3)"
+          span={3}
+        />
+        <GridTile
+          href="/tennis"
+          label="04 / TENNIS"
+          big="HARDCOURT"
+          accent="var(--neon-lime)"
+          span={3}
+        />
 
-          <Reveal delay={0.1}>
-            <p className="text-sub md:text-h-sm text-whisper max-w-[40ch] leading-[1.3]">
-              Musician. Tennis player. Developer.
-            </p>
-          </Reveal>
+        <div
+          className="home-grid-status"
+          style={{
+            gridColumn: "span 12",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 12,
+          }}
+        >
+          <StatusRow />
+        </div>
+      </div>
 
-          <Reveal delay={0.2} className="pt-elem">
-            <div className="flex flex-col sm:flex-row gap-elem">
-              <Button href="/music" variant="ghost" fullWidth>
-                Music
-              </Button>
-              <Button href="/software" variant="ghost" fullWidth>
-                Software
-              </Button>
-              <Button href="/volunteering" variant="ghost" fullWidth>
-                Volunteering
-              </Button>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <style>{`
+        .channel-tile:hover {
+          background: linear-gradient(160deg, color-mix(in oklch, var(--tile-accent) 35%, var(--panel-1)) 0%, var(--panel-2) 80%) !important;
+          box-shadow: inset 0 0 28px color-mix(in oklch, var(--tile-accent) 25%, transparent),
+                      0 0 24px color-mix(in oklch, var(--tile-accent) 35%, transparent) !important;
+        }
+        @media (max-width: 768px) {
+          .home-grid-hero,
+          .home-grid-portrait,
+          .home-grid .channel-tile,
+          .home-grid-status {
+            grid-column: span 12 !important;
+          }
+          .home-grid-status {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
 
-      <Section>
-        <Container>
-          <Reveal>
-            <div className="flex flex-col gap-elem border-t border-white/10 pt-10">
-              <span className="text-caption uppercase tracking-[0.2em] text-whisper">
-                Currently
-              </span>
-              <p className="text-sub text-frost">
-                Software engineer at{" "}
-                <a
-                  href="https://reflex.dev"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline underline-offset-4 decoration-misty hover:decoration-frost transition-colors"
-                >
-                  Reflex
-                </a>
-                . Writing music between sets. Building things at the edges.
-              </p>
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
-    </>
+function GridTile({
+  href,
+  label,
+  big,
+  accent,
+  span = 3,
+}: {
+  href: string;
+  label: string;
+  big: string;
+  accent: string;
+  span?: number;
+}) {
+  const baseBg = `linear-gradient(160deg, color-mix(in oklch, ${accent} 20%, var(--panel-1)) 0%, var(--panel-2) 80%)`;
+  return (
+    <Link
+      href={href}
+      className="channel-tile flex flex-col justify-between"
+      style={
+        {
+          gridColumn: `span ${span}`,
+          gridRow: "span 2",
+          padding: "16px 18px",
+          border: `1px solid color-mix(in oklch, ${accent} 55%, transparent)`,
+          background: baseBg,
+          color: "var(--fg)",
+          transition: "var(--t-fast)",
+          boxShadow: `inset 0 0 20px color-mix(in oklch, ${accent} 12%, transparent)`,
+          ["--tile-accent" as string]: accent,
+        } as React.CSSProperties
+      }
+    >
+      <div className="eyebrow" style={{ color: accent }}>
+        {label}
+      </div>
+      <div
+        className="font-display-tube"
+        style={{
+          fontSize: 22,
+          color: accent,
+          textShadow: `0 0 12px ${accent}`,
+          marginTop: 12,
+          marginBottom: 12,
+        }}
+      >
+        {big}
+      </div>
+      <div className="tiny" style={{ color: "var(--fg-dim)" }}>
+        ▸ ENTER ▸
+      </div>
+    </Link>
   );
 }

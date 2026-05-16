@@ -1,187 +1,265 @@
-import Container from "@/app/ui/Container";
-import Section from "@/app/ui/Section";
-import Hero from "@/app/ui/Hero";
-import Reveal from "@/app/ui/Reveal";
-import Button from "@/app/ui/Button";
+import SectionHead from "@/app/ui/SectionHead";
+import Window from "@/app/ui/Window";
 
-const roles = [
+type Role = {
+  year: string;
+  role: string;
+  co: string;
+  link: string | null;
+  body: string;
+};
+
+const TIMELINE: Role[] = [
   {
-    company: "Reflex",
-    href: "https://reflex.careers",
-    period: "2025 — present",
+    year: "2025",
     role: "Software Engineer",
-    summary:
-      "Building the future of retail work — flexibility for workers and employers alike.",
+    co: "Reflex",
+    link: "https://reflex.careers",
+    body: "Building the future of retail work — unlocking flexibility for both workers and employers.",
   },
   {
-    company: "Hitch",
-    href: "https://hitch.com",
-    period: "2024 — 2025",
-    role: "Software Engineer",
-    summary:
-      "Shipped the latest redesign of the web app's booking system end-to-end.",
+    year: "2024",
+    role: "Engineer",
+    co: "Hitch",
+    link: "https://hitch.com",
+    body: "Built and shipped the latest redesign of the web app's booking system.",
   },
   {
-    company: "DPP Tech",
-    href: "https://dpptech.com",
-    period: "2023 — 2024",
+    year: "2023",
     role: "Founding Engineer",
-    summary:
-      "First hire at a pre-seed AI startup. Led product + engineering, shipped the MVP to beta users in Miami.",
+    co: "DPP Tech",
+    link: "https://dpptech.com",
+    body: "First hire on a pre-seed AI startup. Led product & engineering from scratch — shipped MVP to a rapidly growing set of beta users in Miami, FL.",
   },
   {
-    company: "Walmart",
-    href: "https://walmart.com",
-    period: "2019 — 2023",
+    year: "2019–23",
     role: "Software Engineer",
-    summary:
-      "Four years across React, React Native, and Node. Shipped retail tooling at massive scale.",
+    co: "Walmart",
+    link: null,
+    body: "Four years building in React + React Native on the front, plus heavy Node.js on the back. Austin, TX.",
+  },
+  {
+    year: "2015–19",
+    role: "B.S. Computer Science",
+    co: "Cal Poly SLO",
+    link: null,
+    body: "Studied computer science. Learn-by-doing. San Luis Obispo, CA.",
   },
 ];
 
-const linkClass =
-  "text-frost underline underline-offset-4 decoration-misty hover:decoration-frost transition-colors";
+const STACK_ITEMS: { tag: string; label: string }[] = [
+  { tag: "FRONT", label: "React" },
+  { tag: "FRONT", label: "React Native" },
+  { tag: "FRONT", label: "Next.js" },
+  { tag: "FRONT", label: "TypeScript" },
+  { tag: "BACK", label: "Node.js" },
+  { tag: "BACK", label: "Python" },
+  { tag: "BACK", label: "Postgres" },
+  { tag: "BACK", label: "Redis" },
+  { tag: "INFRA", label: "AWS" },
+  { tag: "INFRA", label: "Vercel" },
+];
 
-export default function Page() {
+export default function SoftwarePage() {
   return (
-    <>
-      <Hero
-        eyebrow="Software"
-        title="Engineer"
-        subtitle="Fullstack — React, React Native, Node, Python."
+    <div className="page-enter page-pad">
+      <SectionHead
+        kicker="// CHANNEL 02"
+        title="SOFTWARE"
+        sub="Fullstack engineer. React / React Native / Node / Python. Currently at Reflex in NYC."
       />
 
-      <Section className="!pt-0">
-        <Container>
-          <Reveal>
-            <div className="flex flex-col gap-elem max-w-[68ch] text-sub text-whisper">
-              <p>
-                I&rsquo;m a fullstack software engineer well-versed in many
-                languages and frameworks, most notably React, React Native,
-                Node, and Python. Presently I&rsquo;m an engineer at{" "}
-                <a
-                  href="https://reflex.careers"
-                  target="_blank"
-                  rel="noreferrer"
-                  className={linkClass}
-                >
-                  Reflex
-                </a>
-                , building the future of retail work to unlock flexibility for
-                both workers and employers.
-              </p>
-              <p>
-                I studied computer science at Cal Poly SLO from 2015 to 2019.
-                From there I began my career at Walmart in Austin, TX, then
-                joined{" "}
-                <a
-                  href="https://dpptech.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className={linkClass}
-                >
-                  DPP Tech
-                </a>{" "}
-                as the first hire at a pre-seed AI startup, sculpting and
-                shipping the MVP to a rapidly growing set of beta users. After
-                that, I joined{" "}
-                <a
-                  href="https://hitch.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className={linkClass}
-                >
-                  Hitch
-                </a>{" "}
-                to ship the latest redesign of their{" "}
-                <a
-                  href="https://hitch.com/book"
-                  target="_blank"
-                  rel="noreferrer"
-                  className={linkClass}
-                >
-                  booking system
-                </a>
-                .
-              </p>
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container>
-          <Reveal>
-            <h2 className="font-display text-h-sm md:text-h text-frost mb-8">
-              Where I&rsquo;ve worked
-            </h2>
-          </Reveal>
-          <ul className="flex flex-col">
-            {roles.map((role, idx) => (
-              <li key={role.company}>
-                <Reveal delay={idx * 0.05}>
-                  <a
-                    href={role.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 md:gap-elem py-6 border-b border-white/10 hover:border-frost transition-colors duration-300"
-                  >
-                    <div className="flex flex-col gap-1">
-                      <span className="font-display text-h-sm text-frost group-hover:text-gradient-ocean transition-colors">
-                        {role.company}
-                      </span>
-                      <span className="text-caption uppercase tracking-[0.2em] text-whisper">
-                        {role.role}
-                      </span>
-                    </div>
-                    <div className="flex flex-col md:items-end md:text-right gap-1 md:max-w-[40ch]">
-                      <span className="text-caption uppercase tracking-[0.2em] text-whisper">
-                        {role.period}
-                      </span>
-                      <span className="text-body text-whisper">
-                        {role.summary}
-                      </span>
-                    </div>
-                  </a>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </Section>
-
-      <Section>
-        <Container>
-          <Reveal>
-            <div className="flex flex-col gap-elem">
-              <span className="text-caption uppercase tracking-[0.2em] text-whisper">
-                Connect
-              </span>
-              <div className="flex flex-col sm:flex-row gap-elem">
-                <Button
-                  href="https://linkedin.com/in/hanskamin"
-                  external
-                  variant="ghost"
-                  fullWidth
-                >
-                  LinkedIn
-                </Button>
-                <Button
-                  href="https://github.com/hanskamin"
-                  external
-                  variant="ghost"
-                  fullWidth
-                >
-                  GitHub
-                </Button>
+      <div
+        className="software-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 2fr) minmax(0, 1fr)",
+          gap: 32,
+        }}
+      >
+        <Window title="career.log" accent="var(--accent)">
+          {TIMELINE.map((t, i) => (
+            <div
+              key={t.year + t.co}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "110px 1fr",
+                gap: 24,
+                padding: "20px 0",
+                borderTop:
+                  i === 0
+                    ? "none"
+                    : "1px dashed color-mix(in oklch, var(--accent) 35%, transparent)",
+                position: "relative",
+              }}
+            >
+              <div
+                className="font-display-tube"
+                style={{
+                  color: "var(--accent-2)",
+                  fontSize: 22,
+                  textShadow: "0 0 8px var(--accent-2)",
+                }}
+              >
+                {t.year}
               </div>
-              <span className="text-caption uppercase tracking-[0.2em] text-whisper pt-elem">
-                Cal Poly SLO &middot; 2015 — 2019
-              </span>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "baseline",
+                    gap: 10,
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <span
+                    className="font-display-tube"
+                    style={{ color: "var(--fg)", fontSize: 22 }}
+                  >
+                    {t.role}
+                  </span>
+                  <span className="tiny" style={{ color: "var(--fg-dim)" }}>
+                    at
+                  </span>
+                  {t.link ? (
+                    <a
+                      href={t.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-display-tube glitch"
+                      data-text={t.co}
+                      style={{
+                        color: "var(--accent)",
+                        fontSize: 22,
+                        textShadow: "0 0 10px var(--accent)",
+                      }}
+                    >
+                      {t.co}
+                    </a>
+                  ) : (
+                    <span
+                      className="font-display-tube"
+                      style={{
+                        color: "var(--accent)",
+                        fontSize: 22,
+                        textShadow: "0 0 10px var(--accent)",
+                      }}
+                    >
+                      {t.co}
+                    </span>
+                  )}
+                </div>
+                <p
+                  style={{
+                    color: "var(--fg-dim)",
+                    marginTop: 8,
+                    fontSize: 14,
+                    lineHeight: 1.75,
+                  }}
+                >
+                  {t.body}
+                </p>
+              </div>
             </div>
-          </Reveal>
-        </Container>
-      </Section>
-    </>
+          ))}
+        </Window>
+
+        <div
+          className="software-side"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+            position: "sticky",
+            top: 96,
+            height: "fit-content",
+          }}
+        >
+          <Window title="stack.cfg" accent="var(--accent-2)">
+            <div className="vmarquee">
+              <ul>
+                {[...STACK_ITEMS, ...STACK_ITEMS].map((s, i) => (
+                  <li key={i}>
+                    <b>{s.tag}</b> {s.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Window>
+
+          <Window title="links.lnk" accent="var(--accent)">
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: 10 }}
+            >
+              <LinkRow
+                href="https://github.com/hanskamin"
+                label="github.com/hanskamin"
+                tag="GIT"
+              />
+              <LinkRow
+                href="https://linkedin.com/in/hanskamin"
+                label="linkedin.com/in/hanskamin"
+                tag="LNK"
+              />
+              <LinkRow
+                href="https://reflex.careers"
+                label="reflex.careers"
+                tag="WRK"
+              />
+            </div>
+          </Window>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .software-grid { grid-template-columns: 1fr !important; }
+          .software-side { position: static !important; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function LinkRow({
+  href,
+  label,
+  tag,
+}: {
+  href: string;
+  label: string;
+  tag: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="link-row"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        padding: "10px 12px",
+        border: "1px solid color-mix(in oklch, var(--accent) 35%, transparent)",
+        background: "linear-gradient(180deg, var(--panel-1), var(--panel-2))",
+        transition: "var(--t-fast)",
+        color: "var(--fg)",
+        textDecoration: "none",
+      }}
+    >
+      <span className="tag pink" style={{ flexShrink: 0 }}>
+        {tag}
+      </span>
+      <span style={{ fontFamily: "var(--body-stack)", fontSize: 12 }}>
+        {label}
+      </span>
+      <span style={{ marginLeft: "auto", color: "var(--accent)" }}>▸</span>
+      <style>{`
+        .link-row:hover {
+          background: linear-gradient(180deg, color-mix(in oklch, var(--accent) 22%, var(--panel-1)), var(--panel-2)) !important;
+        }
+      `}</style>
+    </a>
   );
 }
