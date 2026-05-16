@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import clsx from "clsx";
 
 const links = [
@@ -18,6 +19,11 @@ export default function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -39,6 +45,20 @@ export default function Nav() {
     return () => clearInterval(id);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -47,7 +67,7 @@ export default function Nav() {
       <Link href="/" className="brand" aria-label="Home">
         HANS<span className="blink-cursor">_</span>
         <span
-          className="tiny"
+          className="tiny brand-meta"
           style={{
             fontFamily: "var(--body-stack)",
             fontSize: 10,
@@ -60,7 +80,7 @@ export default function Nav() {
         </span>
       </Link>
 
-      <nav className="routes hidden md:flex" aria-label="Primary">
+      <nav className="routes nav-desktop" aria-label="Primary">
         {links.map((link) => (
           <Link
             key={link.href}
@@ -74,7 +94,7 @@ export default function Nav() {
         ))}
       </nav>
 
-      <div className="hidden md:flex items-center gap-3">
+      <div className="nav-desktop items-center gap-3">
         <span className="tag pink">REC ●</span>
         <span className="tiny" style={{ color: "var(--fg-dim)" }}>
           {time}
@@ -84,56 +104,77 @@ export default function Nav() {
       <button
         type="button"
         aria-expanded={open}
-        aria-controls="mobile-nav"
+        aria-controls="mobile-drawer"
+        aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((v) => !v)}
-        className="md:hidden tiny"
-        style={{
-          background: "transparent",
-          color: "var(--fg)",
-          border: "1px solid color-mix(in oklch, var(--accent) 50%, transparent)",
-          padding: "8px 12px",
-        }}
+        className="nav-menu-btn nav-mobile"
       >
-        {open ? "CLOSE ✕" : "MENU ▸"}
+        <span className={clsx("hamburger", open && "is-open")} aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
       </button>
 
-      <div
-        id="mobile-nav"
-        className={clsx(
-          "md:hidden absolute left-0 right-0 top-full overflow-hidden transition-[max-height,opacity] duration-300 ease-out",
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
+      {mounted &&
+        createPortal(
+          <div className="nav-drawer-root nav-mobile">
+            <div
+              className={clsx("nav-drawer-backdrop", open && "open")}
+              onClick={() => setOpen(false)}
+              aria-hidden="true"
+            />
+            <aside
+              id="mobile-drawer"
+              className={clsx("nav-drawer", open && "open")}
+              aria-label="Primary"
+              aria-hidden={!open}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="nav-drawer-head">
+                <span
+                  className="tiny"
+                  style={{
+                    color: "var(--accent-2)",
+                    textShadow: "0 0 6px var(--accent-2)",
+                  }}
+                >
+                  ▸ ROUTES
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="tiny nav-drawer-close"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <ul className="nav-drawer-list">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={isActive(link.href) ? "true" : undefined}
+                      className="nav-drawer-link font-display-tube"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="nav-drawer-foot tiny">
+                <span style={{ color: "var(--fg-dim)" }}>{time}</span>
+                <span className="tag pink">REC ●</span>
+              </div>
+            </aside>
+          </div>,
+          document.body,
         )}
-        style={{
-          background: "oklch(0.07 0.04 290 / 0.96)",
-          borderBottom: "1px solid color-mix(in oklch, var(--accent) 40%, transparent)",
-          backdropFilter: "blur(12px) saturate(140%)",
-        }}
-      >
-        <ul className="flex flex-col gap-2 px-6 py-4 m-0 list-none">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                onClick={() => setOpen(false)}
-                aria-current={isActive(link.href) ? "true" : undefined}
-                className={clsx(
-                  "block py-2 tiny",
-                  isActive(link.href)
-                    ? "text-[var(--fg)]"
-                    : "text-[var(--fg-dim)] hover:text-[var(--fg)]",
-                )}
-                style={{
-                  textShadow: isActive(link.href)
-                    ? "0 0 8px var(--accent)"
-                    : undefined,
-                }}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
     </header>
   );
 }

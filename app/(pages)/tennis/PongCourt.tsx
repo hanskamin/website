@@ -290,6 +290,7 @@ export default function PongCourt() {
   return (
     <div
       ref={courtRef}
+      className="pong-court"
       style={{
         aspectRatio: "23/10",
         position: "relative",
@@ -459,7 +460,7 @@ export default function PongCourt() {
       </div>
 
       <div
-        className="tiny"
+        className="tiny pong-hint"
         style={{
           position: "absolute",
           left: "50%",
@@ -472,8 +473,24 @@ export default function PongCourt() {
           whiteSpace: "nowrap",
         }}
       >
-        ▸ W/S OR ↑↓ · DRAG ON TOUCH ▸ FIRST TO {WIN_SCORE}
+        <span className="pong-hint-full">
+          ▸ W/S OR ↑↓ · DRAG ON TOUCH ▸ FIRST TO {WIN_SCORE}
+        </span>
+        <span className="pong-hint-short">
+          ▸ DRAG TO PLAY ▸ FIRST TO {WIN_SCORE}
+        </span>
       </div>
+
+      <style>{`
+        .pong-hint-short { display: none; }
+        @media (max-width: 640px) {
+          .pong-court {
+            aspect-ratio: 5/3 !important;
+          }
+          .pong-hint-full { display: none; }
+          .pong-hint-short { display: inline; }
+        }
+      `}</style>
 
       {banner && (
         <div

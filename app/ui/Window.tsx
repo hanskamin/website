@@ -39,7 +39,7 @@ export default function Window({ title, accent, children, style }: Props) {
         <span>▸ {title}</span>
         <span style={{ color: "var(--fg-dim)" }}>▢ ▢ ✕</span>
       </div>
-      <div style={{ padding: 20, flex: 1 }}>{children}</div>
+      <div className="window-body" style={{ flex: 1 }}>{children}</div>
     </div>
   );
 }

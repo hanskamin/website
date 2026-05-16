@@ -278,17 +278,16 @@ export default function MusicPage() {
           accent="var(--accent)"
           style={{ minHeight: 0 }}
         >
-          <div style={{ position: "relative", height: "100%", minHeight: 0 }}>
+          <div className="releases-wrap">
             <ol
+              className="releases-scroll"
               style={{
-                position: "absolute",
-                inset: 0,
                 margin: 0,
                 padding: 0,
                 listStyle: "none",
                 overflowY: "auto",
+                height: "100%",
               }}
-              className="releases-scroll"
             >
             {RELEASES.map((rel, i) => {
               const active = i === currentIdx;
@@ -297,51 +296,36 @@ export default function MusicPage() {
                   key={rel.id}
                   onClick={() => loadAndPlay(i)}
                   aria-current={active ? "true" : undefined}
+                  className="release-row"
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "32px 1fr auto auto",
-                    alignItems: "center",
-                    gap: 16,
-                    padding: "14px 12px",
-                    borderBottom:
-                      "1px dashed color-mix(in oklch, var(--accent) 30%, transparent)",
-                    cursor: "pointer",
                     background: active
                       ? "color-mix(in oklch, var(--accent) 14%, transparent)"
                       : "transparent",
                     boxShadow: active
                       ? "inset 0 0 18px color-mix(in oklch, var(--accent) 30%, transparent)"
                       : "none",
-                    transition: "background var(--t-fast)",
                   }}
                 >
                   <div
-                    className="font-display-tube"
+                    className="release-num font-display-tube"
                     style={{
                       color: active ? rel.color : "var(--fg-dim)",
                       textShadow: active ? `0 0 8px ${rel.color}` : "none",
-                      fontSize: 16,
                     }}
                     aria-hidden="true"
                   >
                     {active && isPlaying ? "▸" : String(i + 1).padStart(2, "0")}
                   </div>
                   <span
-                    className="font-display-tube glitch"
+                    className="release-title font-display-tube glitch"
                     data-text={rel.title}
-                    style={{
-                      color: "var(--fg)",
-                      fontSize: 22,
-                      letterSpacing: ".02em",
-                      lineHeight: 1.15,
-                    }}
                   >
                     {rel.title}
                   </span>
-                  <span className="tiny" style={{ color: "var(--fg-dim)" }}>
+                  <span className="release-dur tiny">
                     {fmtTime(rel.duration)}
                   </span>
-                  <span className="tag pink">{rel.year}</span>
+                  <span className="release-year tag pink">{rel.year}</span>
                 </li>
               );
             })}
@@ -390,12 +374,13 @@ export default function MusicPage() {
 
               <div>
                 <div
-                  className="font-display-tube"
+                  className="font-display-tube now-playing-title"
                   style={{
                     color: r.color,
                     fontSize: 24,
                     textShadow: `0 0 10px ${r.color}`,
                     lineHeight: 1.1,
+                    wordBreak: "break-word",
                   }}
                 >
                   {r.title}
@@ -455,11 +440,13 @@ export default function MusicPage() {
               </div>
 
               <div
+                className="now-playing-controls"
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   gap: 12,
+                  flexWrap: "wrap",
                 }}
               >
                 <button
@@ -559,8 +546,68 @@ export default function MusicPage() {
 
       <style>{`
         @keyframes eqBar { from { transform: scaleY(.2); transform-origin: bottom; } to { transform: scaleY(1); transform-origin: bottom; } }
-        @media (max-width: 900px) {
+
+        .releases-wrap {
+          position: relative;
+          height: 100%;
+          min-height: 0;
+        }
+        .releases-scroll {
+          position: absolute;
+          inset: 0;
+        }
+        .release-row {
+          display: grid;
+          grid-template-columns: 32px 1fr auto auto;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 12px;
+          border-bottom: 1px dashed color-mix(in oklch, var(--accent) 30%, transparent);
+          cursor: pointer;
+          transition: background var(--t-fast);
+        }
+        .release-num { font-size: 16px; }
+        .release-title {
+          color: var(--fg);
+          font-size: 22px;
+          letter-spacing: .02em;
+          line-height: 1.15;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        @media (max-width: 767px) {
           .music-grid { grid-template-columns: 1fr !important; }
+          .releases-wrap {
+            height: auto;
+            max-height: 60vh;
+          }
+          .releases-scroll {
+            position: static;
+            inset: auto;
+            max-height: 60vh;
+          }
+        }
+        @media (max-width: 640px) {
+          .release-row {
+            grid-template-columns: 28px 1fr auto;
+            gap: 10px;
+            padding: 12px 8px;
+          }
+          .release-num { font-size: 13px; }
+          .release-title { font-size: 15px; }
+          .release-dur { display: none; }
+          .release-year {
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            padding: 2px 6px;
+          }
+          .now-playing-controls { gap: 8px !important; }
+          .now-playing-controls .btn { padding: 10px 14px !important; font-size: 12px; }
+          .now-playing-controls .btn.btn-ghost { padding: 8px 12px !important; }
+          .now-playing-title { font-size: 20px !important; }
+          .now-playing-pri { font-size: 18px !important; }
         }
         .releases-scroll::-webkit-scrollbar { width: 8px; }
         .releases-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.4); }

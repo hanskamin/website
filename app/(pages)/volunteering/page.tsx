@@ -41,7 +41,7 @@ export default function VolunteeringPage() {
       >
         <div>
           {/* Stacked image carousel */}
-          <div style={{ position: "relative", aspectRatio: "4/5" }}>
+          <div className="vol-carousel" style={{ position: "relative", aspectRatio: "4/5" }}>
             {VOL_IMAGES.map((src, i) => (
               <div
                 key={i}
@@ -180,8 +180,12 @@ export default function VolunteeringPage() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
+        @media (max-width: 767px) {
           .vol-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .vol-grid { gap: 20px !important; }
+          .vol-carousel { aspect-ratio: 4/4 !important; }
         }
       `}</style>
     </div>

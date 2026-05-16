@@ -24,6 +24,7 @@ export default function TennisPage() {
           <PongCourt />
 
           <div
+            className="tennis-specs"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
@@ -102,8 +103,11 @@ export default function TennisPage() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
+        @media (max-width: 767px) {
           .tennis-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .tennis-specs { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </div>

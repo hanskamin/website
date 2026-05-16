@@ -17,12 +17,13 @@ export default function SectionHead({ kicker, title, sub }: Props) {
         {kicker}
       </div>
       <h1
-        className="font-display-tube chrome-text glitch"
+        className="font-display-tube chrome-text glitch section-title"
         data-text={title}
         style={{
-          fontSize: "clamp(56px, 9vw, 120px)",
+          fontSize: "clamp(40px, 9vw, 120px)",
           margin: "8px 0 12px",
           lineHeight: 0.9,
+          wordBreak: "break-word",
         }}
       >
         {title}

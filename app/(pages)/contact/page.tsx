@@ -124,8 +124,20 @@ export default function ContactPage() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
+        @media (max-width: 767px) {
           .contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .big-link {
+            padding: 16px 18px !important;
+            gap: 12px;
+          }
+          .big-link .big-link-label {
+            font-size: 22px !important;
+          }
+          .big-link .big-link-arrow {
+            font-size: 22px !important;
+          }
         }
       `}</style>
     </div>
@@ -167,9 +179,9 @@ function BigLink({
         } as React.CSSProperties
       }
     >
-      <div>
+      <div style={{ minWidth: 0, overflow: "hidden" }}>
         <div
-          className="font-display-tube"
+          className="font-display-tube big-link-label"
           style={{
             fontSize: 32,
             color: accent,
@@ -178,13 +190,20 @@ function BigLink({
         >
           {label}
         </div>
-        <div className="tiny" style={{ color: "var(--fg-dim)", marginTop: 4 }}>
+        <div
+          className="tiny"
+          style={{
+            color: "var(--fg-dim)",
+            marginTop: 4,
+            wordBreak: "break-word",
+          }}
+        >
           {sub}
         </div>
       </div>
       <div
-        className="font-display-tube"
-        style={{ fontSize: 28, color: accent }}
+        className="font-display-tube big-link-arrow"
+        style={{ fontSize: 28, color: accent, flexShrink: 0 }}
       >
         ▸
       </div>

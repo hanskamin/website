@@ -81,10 +81,8 @@ export default function SoftwarePage() {
           {TIMELINE.map((t, i) => (
             <div
               key={t.year + t.co}
+              className="career-row"
               style={{
-                display: "grid",
-                gridTemplateColumns: "110px 1fr",
-                gap: 24,
                 padding: "20px 0",
                 borderTop:
                   i === 0
@@ -94,7 +92,7 @@ export default function SoftwarePage() {
               }}
             >
               <div
-                className="font-display-tube"
+                className="career-year font-display-tube"
                 style={{
                   color: "var(--accent-2)",
                   fontSize: 22,
@@ -113,7 +111,7 @@ export default function SoftwarePage() {
                   }}
                 >
                   <span
-                    className="font-display-tube"
+                    className="career-role font-display-tube"
                     style={{ color: "var(--fg)", fontSize: 22 }}
                   >
                     {t.role}
@@ -126,7 +124,7 @@ export default function SoftwarePage() {
                       href={t.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-display-tube glitch"
+                      className="career-co font-display-tube glitch"
                       data-text={t.co}
                       style={{
                         color: "var(--accent)",
@@ -138,7 +136,7 @@ export default function SoftwarePage() {
                     </a>
                   ) : (
                     <span
-                      className="font-display-tube"
+                      className="career-co font-display-tube"
                       style={{
                         color: "var(--accent)",
                         fontSize: 22,
@@ -215,8 +213,23 @@ export default function SoftwarePage() {
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
+        .career-row {
+          display: grid;
+          grid-template-columns: 110px 1fr;
+          gap: 24px;
+        }
+        @media (max-width: 767px) {
           .software-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 640px) {
+          .career-row {
+            grid-template-columns: 1fr;
+            gap: 6px;
+            padding: 16px 0 !important;
+          }
+          .career-year { font-size: 16px !important; }
+          .career-role,
+          .career-co { font-size: 17px !important; }
         }
       `}</style>
     </div>

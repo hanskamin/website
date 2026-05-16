@@ -130,15 +130,44 @@ export default function Home() {
           box-shadow: inset 0 0 28px color-mix(in oklch, var(--tile-accent) 25%, transparent),
                       0 0 24px color-mix(in oklch, var(--tile-accent) 35%, transparent) !important;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
           .home-grid-hero,
           .home-grid-portrait,
           .home-grid .channel-tile,
           .home-grid-status {
             grid-column: span 12 !important;
           }
+          .home-grid-hero,
+          .home-grid-portrait {
+            grid-row: auto !important;
+          }
+          .home-grid .channel-tile {
+            grid-row: span 1 !important;
+            min-height: 120px;
+          }
+          .home-grid-portrait {
+            aspect-ratio: 4/3;
+            max-height: 360px;
+          }
+        }
+        @media (max-width: 640px) {
+          .home-grid {
+            gap: 10px !important;
+          }
+          .home-grid-hero {
+            padding: 20px 18px 18px !important;
+            gap: 16px;
+          }
+          .home-grid-hero h1 {
+            font-size: clamp(44px, 16vw, 96px) !important;
+          }
+          .home-grid-portrait {
+            aspect-ratio: 1/1;
+            max-height: none;
+          }
           .home-grid-status {
             grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
           }
         }
       `}</style>

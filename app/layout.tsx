@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Audiowide } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
   title: "Hans Kamin",
   description:
     "Hans Kamin -- musician, tennis player, software engineer. Broadcasting from Austin, TX.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
