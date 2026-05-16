@@ -524,7 +524,7 @@ export default function PongCourt() {
               letterSpacing: ".25em",
             }}
           >
-            {String(score.p).padStart(2, "0")} —{" "}
+            {String(score.p).padStart(2, "0")} --{" "}
             {String(score.c).padStart(2, "0")} ▸ RESTARTING
           </div>
         </div>

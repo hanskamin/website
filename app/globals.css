@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────────
-   HANS.SYS — Miami Synthwave OS
+   HANS.SYS -- Miami Synthwave OS
    Tokens, base, shared widgets.
    ───────────────────────────────────────────────────────────────── */
 
@@ -49,7 +49,7 @@
   box-sizing: border-box;
 }
 
-/* Zero italics across the entire site — neutralize browser-default obliques
+/* Zero italics across the entire site -- neutralize browser-default obliques
    on em/i/cite/dfn/var/address, plus any inline overrides. */
 *,
 *::before,
@@ -363,14 +363,13 @@ button {
 .glitch::after {
   content: attr(data-text);
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--t-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: inherit;
+  white-space: inherit;
 }
 .glitch::before {
   color: var(--accent-2);
@@ -589,6 +588,31 @@ body.no-motion *::after {
     repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.18) 2px 3px);
   pointer-events: none;
   mix-blend-mode: overlay;
+}
+
+/* Stronger CRT TV look — opt-in via .crt modifier */
+.frame.crt::after {
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(0, 0, 0, 0.55) 100%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--accent) 14%, transparent),
+      transparent 35%,
+      color-mix(in oklch, var(--accent-2) 12%, transparent)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 1.5px,
+      rgba(0, 0, 0, 0.34) 1.5px 2px
+    );
+  mix-blend-mode: normal;
+}
+.frame.crt img {
+  filter: saturate(1.2) contrast(1.1) brightness(0.94);
 }
 
 /* ── Tag ──────────────────────────────────────────────────────── */

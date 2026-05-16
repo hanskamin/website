@@ -4,7 +4,7 @@ export default function Footer() {
       <div>
         © 1986–2026 ▸ <span className="stamp">HANS.SYS</span>
       </div>
-      <div>BROADCASTING FROM NEW YORK, NY</div>
+      <div>BROADCASTING FROM AUSTIN, TX</div>
       <div className="tiny">SIGNAL STRENGTH ▮▮▮▮▮▮▯▯</div>
     </footer>
   );

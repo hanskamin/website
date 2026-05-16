@@ -17,7 +17,7 @@ export default function ContactPage() {
       <SectionHead
         kicker="// CHANNEL 06"
         title="TRANSMIT"
-        sub="Get in touch — or just say hi."
+        sub="Get in touch -- or just say hi."
       />
 
       <div
@@ -48,9 +48,9 @@ export default function ContactPage() {
             accent="var(--accent-3)"
           />
           <BigLink
-            href="mailto:hi@hanskamin.com"
+            href="mailto:hans@hanskamin.com"
             label="E-MAIL"
-            sub="hi@hanskamin.com"
+            sub="hans@hanskamin.com"
             accent="var(--neon-lime)"
           />
         </div>
@@ -88,7 +88,11 @@ export default function ContactPage() {
             </div>
           </Window>
 
-          <Window title="visitor.log" accent="var(--accent-2)">
+          <Window
+            title="visitor.log"
+            accent="var(--accent-2)"
+            style={{ flex: 1 }}
+          >
             <div
               style={{
                 fontFamily: "var(--body-stack)",

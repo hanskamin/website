@@ -27,7 +27,7 @@ export default function VolunteeringPage() {
       <SectionHead
         kicker="// CHANNEL 03"
         title="VOLUNTEERING"
-        sub="Mentoring high schoolers through the YMCA Model United Nations program — alumni staff since 2018."
+        sub="Mentoring high schoolers through the YMCA Model United Nations program."
       />
 
       <div
@@ -168,7 +168,7 @@ export default function VolunteeringPage() {
               Our students spend an entire week meeting, befriending, and
               debating high schoolers from a wide variety of upbringings,
               backgrounds, and ways of life that are completely different from
-              their own. American politics are as vitriolic as ever — I believe
+              their own. American politics are as vitriolic as ever -- I believe
               it&rsquo;s never been more important for young people to learn
               how to empathize & engage with belief systems that challenge
               their own, and I find immense joy in facilitating that
@@ -176,17 +176,6 @@ export default function VolunteeringPage() {
             </p>
           </Window>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: 12,
-            }}
-          >
-            <StatBox big="08" label="Summers" accent="var(--accent-3)" />
-            <StatBox big="25" label="Students / yr" accent="var(--accent)" />
-            <StatBox big="∞" label="Hours debated" accent="var(--accent-2)" />
-          </div>
         </div>
       </div>
 
@@ -199,39 +188,3 @@ export default function VolunteeringPage() {
   );
 }
 
-function StatBox({
-  big,
-  label,
-  accent,
-}: {
-  big: string;
-  label: string;
-  accent: string;
-}) {
-  return (
-    <div
-      style={{
-        padding: "16px 12px",
-        textAlign: "center",
-        border: `1px solid color-mix(in oklch, ${accent} 50%, transparent)`,
-        background: `linear-gradient(180deg, color-mix(in oklch, ${accent} 18%, var(--panel-1)), var(--panel-2))`,
-        boxShadow: `inset 0 0 18px color-mix(in oklch, ${accent} 12%, transparent)`,
-      }}
-    >
-      <div
-        className="font-display-tube"
-        style={{
-          fontSize: 36,
-          color: accent,
-          textShadow: `0 0 10px ${accent}`,
-          lineHeight: 1,
-        }}
-      >
-        {big}
-      </div>
-      <div className="eyebrow" style={{ marginTop: 8 }}>
-        {label}
-      </div>
-    </div>
-  );
-}

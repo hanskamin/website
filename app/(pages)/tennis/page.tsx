@@ -8,7 +8,7 @@ export default function TennisPage() {
       <SectionHead
         kicker="// CHANNEL 04"
         title="TENNIS"
-        sub="Yellow felt, painted lines, early mornings. Mostly hardcourt."
+        sub="Never date a tennis player -- Love means nothing to them ;)"
       />
 
       <div
@@ -17,7 +17,7 @@ export default function TennisPage() {
           display: "grid",
           gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
           gap: 32,
-          alignItems: "start",
+          alignItems: "stretch",
         }}
       >
         <Window title="court.viz" accent="var(--neon-lime)">
@@ -38,8 +38,18 @@ export default function TennisPage() {
           </div>
         </Window>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <Window title="log.txt" accent="var(--accent-2)">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+          }}
+        >
+          <Window
+            title="log.txt"
+            accent="var(--accent-2)"
+            style={{ flex: 1 }}
+          >
             <p
               style={{
                 color: "var(--fg)",
@@ -65,7 +75,11 @@ export default function TennisPage() {
             </p>
           </Window>
 
-          <Window title="rivals.dir" accent="var(--accent)">
+          <Window
+            title="rivals.dir"
+            accent="var(--accent)"
+            style={{ flex: 1 }}
+          >
             <ul
               style={{
                 margin: 0,
@@ -73,12 +87,14 @@ export default function TennisPage() {
                 listStyle: "none",
                 display: "flex",
                 flexDirection: "column",
-                gap: 10,
+                justifyContent: "space-between",
+                height: "100%",
+                minHeight: 0,
               }}
             >
-              <Rival name="THE WIND" record="2 — 18 MPH" />
+              <Rival name="THE WIND" record="2 - 18 MPH" />
               <Rival name="A GOOD BACKHAND" record="404 NOT FOUND" />
-              <Rival name="MY 6:00 AM ALARM" record="PUBLIC ENEMY #1" />
+              <Rival name="ROGER FEDERER" record="THE GOAT" />
               <Rival name="THE BAKERY" record="OPEN 4 BIZ" />
             </ul>
           </Window>

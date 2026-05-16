@@ -26,7 +26,13 @@ export default function Nav() {
   useEffect(() => {
     const tick = () => {
       const d = new Date();
-      setTime(d.toLocaleTimeString("en-US", { hour12: false }) + " EST");
+      const hms = d.toLocaleTimeString("en-US", { hour12: false });
+      const tz =
+        d
+          .toLocaleTimeString("en-US", { timeZoneName: "short" })
+          .split(" ")
+          .pop() ?? "";
+      setTime(`${hms} ${tz}`);
     };
     tick();
     const id = setInterval(tick, 1000);
@@ -50,7 +56,7 @@ export default function Nav() {
             marginLeft: 12,
           }}
         >
-          v.86 ▸ NYC
+          v.86 ▸ ATX
         </span>
       </Link>
 

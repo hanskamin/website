@@ -14,7 +14,7 @@ export default function Home() {
           marginBottom: 18,
         }}
       >
-        ▸ SELECT CHANNEL ▸ PRESS ENTER
+        ▸ SELECT CHANNEL
       </div>
 
       <div
@@ -43,7 +43,9 @@ export default function Home() {
               "inset 0 0 32px color-mix(in oklch, var(--accent) 15%, transparent), 0 0 24px color-mix(in oklch, var(--accent) 20%, transparent)",
           }}
         >
-          <div className="eyebrow">▸ ID — 01</div>
+          <div className="eyebrow" aria-hidden="true" style={{ visibility: "hidden" }}>
+            ·
+          </div>
           <h1
             className="font-display-tube chrome-text"
             style={{
@@ -57,7 +59,7 @@ export default function Home() {
             KAMIN
           </h1>
           <div className="tiny" style={{ color: "var(--fg-dim)" }}>
-            SAN LUIS OBISPO → AUSTIN → NEW YORK CITY
+            NEW JERSEY → SAN LUIS OBISPO → MIAMI → NEW YORK CITY → AUSTIN
           </div>
         </div>
 
@@ -65,7 +67,10 @@ export default function Home() {
           className="home-grid-portrait"
           style={{ gridColumn: "span 4", gridRow: "span 3" }}
         >
-          <div className="frame" style={{ width: "100%", height: "100%" }}>
+          <div
+            className="frame crt"
+            style={{ width: "100%", height: "100%" }}
+          >
             <Image
               src={profile}
               alt="Hans"
@@ -80,28 +85,28 @@ export default function Home() {
         <GridTile
           href="/music"
           label="01 / MUSIC"
-          big="4 RELEASES"
+          big="18 RELEASES"
           accent="var(--accent)"
           span={3}
         />
         <GridTile
           href="/software"
           label="02 / SOFTWARE"
-          big="REFLEX"
+          big="CURRENT WORK"
           accent="var(--accent-2)"
           span={3}
         />
         <GridTile
           href="/volunteering"
-          label="03 / MUN"
-          big="ALUMNI STAFF"
+          label="03 / VOLUNTEERING"
+          big="YOUTH EMPOWERMENT"
           accent="var(--accent-3)"
           span={3}
         />
         <GridTile
           href="/tennis"
           label="04 / TENNIS"
-          big="HARDCOURT"
+          big="PLAY PONG?"
           accent="var(--neon-lime)"
           span={3}
         />

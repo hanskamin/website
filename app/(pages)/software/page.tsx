@@ -12,16 +12,16 @@ type Role = {
 const TIMELINE: Role[] = [
   {
     year: "2025",
-    role: "Software Engineer",
+    role: "Fullstack Engineer",
     co: "Reflex",
     link: "https://reflex.careers",
-    body: "Building the future of retail work — unlocking flexibility for both workers and employers.",
+    body: "Building the future of retail work -- unlocking flexibility for both workers and employers.",
   },
   {
     year: "2024",
-    role: "Engineer",
+    role: "Software Engineer",
     co: "Hitch",
-    link: "https://hitch.com",
+    link: "https://hitch.com/book",
     body: "Built and shipped the latest redesign of the web app's booking system.",
   },
   {
@@ -29,20 +29,20 @@ const TIMELINE: Role[] = [
     role: "Founding Engineer",
     co: "DPP Tech",
     link: "https://dpptech.com",
-    body: "First hire on a pre-seed AI startup. Led product & engineering from scratch — shipped MVP to a rapidly growing set of beta users in Miami, FL.",
+    body: "First hire on a pre-seed AI startup. Led product & engineering from scratch -- shipped MVP to a rapidly growing set of beta users in Miami, FL.",
   },
   {
     year: "2019–23",
     role: "Software Engineer",
     co: "Walmart",
-    link: null,
+    link: "https://www.linkedin.com/posts/hanskamin_teamwalmart-activity-6450815886025584640-rrat?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB2ZIl0B5TfpjC2rjj96rQ7y2-u5h33Psqs",
     body: "Four years building in React + React Native on the front, plus heavy Node.js on the back. Austin, TX.",
   },
   {
     year: "2015–19",
-    role: "B.S. Computer Science",
+    role: "Computer Science",
     co: "Cal Poly SLO",
-    link: null,
+    link: "https://www.calpoly.edu/",
     body: "Studied computer science. Learn-by-doing. San Luis Obispo, CA.",
   },
 ];
@@ -66,7 +66,7 @@ export default function SoftwarePage() {
       <SectionHead
         kicker="// CHANNEL 02"
         title="SOFTWARE"
-        sub="Fullstack engineer. React / React Native / Node / Python. Currently at Reflex in NYC."
+        sub="Fullstack engineer. React / React Native / Node / Python. Currently at Reflex, working from Austin, TX."
       />
 
       <div
@@ -170,9 +170,6 @@ export default function SoftwarePage() {
             display: "flex",
             flexDirection: "column",
             gap: 18,
-            position: "sticky",
-            top: 96,
-            height: "fit-content",
           }}
         >
           <Window title="stack.cfg" accent="var(--accent-2)">
@@ -187,9 +184,15 @@ export default function SoftwarePage() {
             </div>
           </Window>
 
-          <Window title="links.lnk" accent="var(--accent)">
+          <Window title="links.lnk" accent="var(--accent)" style={{ flex: 1 }}>
             <div
-              style={{ display: "flex", flexDirection: "column", gap: 10 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                height: "100%",
+                justifyContent: "center",
+              }}
             >
               <LinkRow
                 href="https://github.com/hanskamin"
@@ -214,7 +217,6 @@ export default function SoftwarePage() {
       <style>{`
         @media (max-width: 900px) {
           .software-grid { grid-template-columns: 1fr !important; }
-          .software-side { position: static !important; }
         }
       `}</style>
     </div>

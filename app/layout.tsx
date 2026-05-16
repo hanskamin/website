@@ -14,7 +14,7 @@ const audiowide = Audiowide({
   display: "swap",
 });
 
-// TX-02 (Berkeley Graphics) — self-hosted. No oblique cuts loaded:
+// TX-02 (Berkeley Graphics) -- self-hosted. No oblique cuts loaded:
 // zero italics across the site is enforced by the global font-style rule
 // in globals.css as well.
 const tx02 = localFont({
@@ -27,9 +27,9 @@ const tx02 = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "HANS.SYS — hanskamin.com",
+  title: "Hans Kamin",
   description:
-    "Hans Kamin — musician, tennis player, software engineer. Broadcasting from New York.",
+    "Hans Kamin -- musician, tennis player, software engineer. Broadcasting from Austin, TX.",
 };
 
 export default function RootLayout({

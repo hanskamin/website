@@ -16,6 +16,8 @@ export default function Window({ title, accent, children, style }: Props) {
         background: "linear-gradient(180deg, var(--panel-1), var(--panel-2))",
         boxShadow: `0 0 0 1px color-mix(in oklch, ${a} 18%, transparent) inset, 0 0 32px color-mix(in oklch, ${a} 26%, transparent)`,
         borderRadius: 2,
+        display: "flex",
+        flexDirection: "column",
         ...style,
       }}
     >
@@ -37,7 +39,7 @@ export default function Window({ title, accent, children, style }: Props) {
         <span>▸ {title}</span>
         <span style={{ color: "var(--fg-dim)" }}>▢ ▢ ✕</span>
       </div>
-      <div style={{ padding: 20 }}>{children}</div>
+      <div style={{ padding: 20, flex: 1 }}>{children}</div>
     </div>
   );
 }
