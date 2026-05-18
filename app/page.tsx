@@ -14,7 +14,7 @@ export default function Home() {
           marginBottom: 18,
         }}
       >
-        // CHANNEL 00
+        {"// CHANNEL 00"}
       </div>
 
       <div
