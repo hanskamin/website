@@ -16,7 +16,6 @@ function StatusBlock({ k, v, href }: Block) {
       "inset 0 0 16px color-mix(in oklch, var(--accent-2) 10%, transparent)",
     color: "inherit",
     textDecoration: "none",
-    transition: "var(--t-fast)",
   };
   const content = (
     <>
@@ -137,6 +136,7 @@ export default function StatusRow() {
           border-color: color-mix(in oklch, var(--accent-2) 70%, transparent) !important;
           box-shadow: inset 0 0 22px color-mix(in oklch, var(--accent-2) 22%, transparent),
                       0 0 18px color-mix(in oklch, var(--accent-2) 30%, transparent) !important;
+          transition: var(--t-fast);
         }
       `}</style>
     </>

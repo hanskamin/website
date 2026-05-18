@@ -15,9 +15,10 @@ export default function ContactPage() {
   return (
     <div className="page-enter page-pad">
       <SectionHead
-        kicker="// CHANNEL 06"
-        title="TRANSMIT"
-        sub="Get in touch -- or just say hi."
+        kicker="// CHANNEL 05"
+        title="CONTACT"
+        sub="If you're reading this, let's connect!"
+        subGridTemplate="minmax(0, 1.2fr) minmax(0, 1fr)"
       />
 
       <div
@@ -42,15 +43,15 @@ export default function ContactPage() {
             accent="var(--accent)"
           />
           <BigLink
-            href="https://distrokid.com/hyperfollow/hans14/be-honest-2"
+            href="https://linktr.ee/hanzykamin"
             label="STREAMING"
             sub="hans · everywhere"
             accent="var(--accent-3)"
           />
           <BigLink
-            href="mailto:hans@hanskamin.com"
+            href="mailto:hansjkamin@gmail.com"
             label="E-MAIL"
-            sub="hans@hanskamin.com"
+            sub="hansjkamin@gmail.com"
             accent="var(--neon-lime)"
           />
         </div>
@@ -171,7 +172,6 @@ function BigLink({
           background: `linear-gradient(90deg, color-mix(in oklch, ${accent} 22%, var(--panel-1)) 0%, var(--panel-2) 70%)`,
           color: "var(--fg)",
           textDecoration: "none",
-          transition: "var(--t-fast)",
           position: "relative",
           overflow: "hidden",
           boxShadow: `inset 0 0 18px color-mix(in oklch, ${accent} 10%, transparent)`,
@@ -212,6 +212,7 @@ function BigLink({
           background: linear-gradient(90deg, color-mix(in oklch, var(--link-accent) 38%, var(--panel-1)) 0%, var(--panel-2) 70%) !important;
           box-shadow: inset 0 0 24px color-mix(in oklch, var(--link-accent) 22%, transparent),
                       0 0 28px color-mix(in oklch, var(--link-accent) 40%, transparent) !important;
+          transition: var(--t-fast);
         }
       `}</style>
     </a>

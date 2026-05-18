@@ -61,10 +61,10 @@ html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   background: var(--bg);
   color: var(--fg);
-  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -150,6 +150,12 @@ button {
     blur(0.5px)
     drop-shadow(0 0 60px oklch(0.78 0.22 40 / 0.6))
     drop-shadow(0 0 120px oklch(0.66 0.28 340 / 0.5));
+}
+@media (max-width: 640px) {
+  .bg-stack .sun,
+  .bg-stack .sun::after {
+    display: none;
+  }
 }
 .bg-stack .sun::after {
   content: "";
@@ -262,12 +268,24 @@ button {
 }
 
 /* ── Page layout ──────────────────────────────────────────────── */
+:root {
+  --nav-h: 70px;
+  --footer-h: 84px;
+}
+@media (max-width: 640px) {
+  :root {
+    --nav-h: 56px;
+    --footer-h: 0px;
+  }
+}
 .app-shell {
   position: relative;
   z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: var(--nav-h);
+  padding-bottom: var(--footer-h);
 }
 .page-pad {
   padding: clamp(20px, 4vw, 56px) clamp(16px, 5vw, 80px) 120px;
@@ -295,8 +313,10 @@ button {
 
 /* ── Top nav ──────────────────────────────────────────────────── */
 .topnav {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 30;
   display: flex;
   align-items: center;
@@ -355,10 +375,9 @@ button {
   border: 1px solid transparent;
   color: var(--fg-dim);
   padding: 8px 14px;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 14px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  transition: var(--t-fast);
   position: relative;
   font-family: inherit;
 }
@@ -366,6 +385,7 @@ button {
 .topnav nav.routes button:hover {
   color: var(--fg);
   text-shadow: 0 0 8px var(--accent);
+  transition: var(--t-fast);
 }
 .topnav nav.routes a[aria-current="true"],
 .topnav nav.routes button[aria-current="true"] {
@@ -376,6 +396,16 @@ button {
     inset 0 0 16px color-mix(in oklch, var(--accent) 30%, transparent),
     0 0 16px color-mix(in oklch, var(--accent) 30%, transparent);
   text-shadow: 0 0 8px var(--accent);
+}
+
+.topnav .tiny {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+}
+.topnav .tag {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  padding: 4px 10px;
 }
 
 /* ── Nav breakpoint ───────────────────────────────────────────── */
@@ -397,13 +427,13 @@ button {
   border: 1px solid color-mix(in oklch, var(--accent) 50%, transparent);
   cursor: pointer;
   font-family: inherit;
-  transition: var(--t-fast);
   padding: 0;
 }
 .nav-menu-btn:hover {
   color: var(--accent-2);
   border-color: color-mix(in oklch, var(--accent-2) 60%, transparent);
   box-shadow: 0 0 12px color-mix(in oklch, var(--accent-2) 35%, transparent);
+  transition: var(--t-fast);
 }
 .hamburger {
   display: inline-flex;
@@ -484,12 +514,12 @@ button {
   font-family: inherit;
   letter-spacing: 0.2em;
   cursor: pointer;
-  transition: var(--t-fast);
 }
 .nav-drawer-close:hover {
   color: var(--accent);
   border-color: color-mix(in oklch, var(--accent) 70%, transparent);
   text-shadow: 0 0 8px var(--accent);
+  transition: var(--t-fast);
 }
 
 .nav-drawer-list {
@@ -507,13 +537,13 @@ button {
   color: var(--fg-dim);
   text-decoration: none;
   border-left: 2px solid transparent;
-  transition: var(--t-fast);
 }
 .nav-drawer-link:hover {
   color: var(--fg);
   border-left-color: color-mix(in oklch, var(--accent-2) 70%, transparent);
   background: color-mix(in oklch, var(--accent-2) 8%, transparent);
   text-shadow: 0 0 8px var(--accent-2);
+  transition: var(--t-fast);
 }
 .nav-drawer-link[aria-current="true"] {
   color: var(--fg);
@@ -552,9 +582,12 @@ button {
   left: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--t-fast);
   padding: inherit;
   white-space: inherit;
+}
+.glitch:hover::before,
+.glitch:hover::after {
+  transition: opacity var(--t-fast);
 }
 .glitch::before {
   color: var(--accent-2);
@@ -591,7 +624,6 @@ button {
   border-radius: 2px;
   position: relative;
   overflow: hidden;
-  transition: var(--t-fast);
   text-shadow: 0 0 6px var(--accent);
   box-shadow:
     0 0 0 1px color-mix(in oklch, var(--accent) 20%, transparent) inset,
@@ -602,6 +634,7 @@ button {
   box-shadow:
     0 0 0 1px color-mix(in oklch, var(--accent) 35%, transparent) inset,
     0 0 28px color-mix(in oklch, var(--accent) 60%, transparent);
+  transition: var(--t-fast);
 }
 .btn::before {
   content: "";
@@ -614,10 +647,10 @@ button {
     transparent 60%
   );
   transform: translateX(-120%);
-  transition: transform 0.7s ease;
 }
 .btn:hover::before {
   transform: translateX(120%);
+  transition: transform 0.7s ease;
 }
 
 .btn-ghost {
@@ -722,9 +755,17 @@ body.no-motion *::after {
   transition: none !important;
 }
 
+@media (max-width: 767px) {
+  .section-sub-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .section-sub-grid > [aria-hidden="true"] {
+    display: none;
+  }
+}
+
 /* ── Footer ───────────────────────────────────────────────────── */
 .site-footer {
-  margin-top: auto;
   padding: 28px clamp(16px, 4vw, 40px);
   border-top: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
   display: flex;
@@ -733,18 +774,29 @@ body.no-motion *::after {
   justify-content: space-between;
   align-items: center;
   color: var(--fg-dim);
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-size: 14px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  background: oklch(0.07 0.04 290 / 0.92);
-  position: relative;
-  z-index: 1;
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  background: linear-gradient(
+    0deg,
+    oklch(0.07 0.04 290 / 0.92),
+    oklch(0.07 0.04 290 / 0.72)
+  );
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
 }
 @media (max-width: 640px) {
   .site-footer {
+    position: static;
+    margin-top: auto;
     padding: 20px 16px;
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    font-size: 12px;
+    letter-spacing: 0.14em;
     gap: 10px;
     flex-direction: column;
     align-items: flex-start;

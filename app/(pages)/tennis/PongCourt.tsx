@@ -52,9 +52,8 @@ export default function PongCourt() {
     const el = courtRef.current;
     if (!el) return;
     const measure = () => {
-      const r = el.getBoundingClientRect();
-      sRef.current.courtW = r.width;
-      sRef.current.courtH = r.height;
+      sRef.current.courtW = el.clientWidth;
+      sRef.current.courtH = el.clientHeight;
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -151,8 +150,12 @@ export default function PongCourt() {
       last = now;
       const s = sRef.current;
       const paddleHalfH = PADDLE_H / 2;
-      const minY = PLAY_TOP + paddleHalfH;
-      const maxY = PLAY_BOTTOM - paddleHalfH;
+      const courtHForBuffer = Math.max(1, s.courtH);
+      const baselineBuffer = 2 / courtHForBuffer;
+      const playTop = PLAY_TOP + baselineBuffer;
+      const playBottom = PLAY_BOTTOM - baselineBuffer;
+      const minY = playTop + paddleHalfH;
+      const maxY = playBottom - paddleHalfH;
 
       const humanActive = now - s.lastInputAt < TAKEOVER_MS;
 
@@ -188,11 +191,11 @@ export default function PongCourt() {
         const paddleHalfWX = PADDLE_W_PX / 2 / courtW + ballRX;
         const reachY = paddleHalfH + ballRY;
 
-        if (s.ball.y - ballRY < PLAY_TOP) {
-          s.ball.y = PLAY_TOP + ballRY;
+        if (s.ball.y - ballRY < playTop) {
+          s.ball.y = playTop + ballRY;
           s.ball.vy = Math.abs(s.ball.vy);
-        } else if (s.ball.y + ballRY > PLAY_BOTTOM) {
-          s.ball.y = PLAY_BOTTOM - ballRY;
+        } else if (s.ball.y + ballRY > playBottom) {
+          s.ball.y = playBottom - ballRY;
           s.ball.vy = -Math.abs(s.ball.vy);
         }
 
@@ -288,6 +291,7 @@ export default function PongCourt() {
   }, []);
 
   return (
+    <div className="pong-wrapper" style={{ position: "relative" }}>
     <div
       ref={courtRef}
       className="pong-court"
@@ -430,68 +434,6 @@ export default function PongCourt() {
         }}
       />
 
-      <div
-        className="tiny"
-        style={{
-          position: "absolute",
-          left: 12,
-          top: 10,
-          color: "var(--neon-lime)",
-          textShadow: "0 0 8px var(--neon-lime)",
-          letterSpacing: ".2em",
-          zIndex: 4,
-        }}
-      >
-        PLAYER {String(score.p).padStart(2, "0")}
-      </div>
-      <div
-        className="tiny"
-        style={{
-          position: "absolute",
-          right: 12,
-          top: 10,
-          color: "var(--accent-2)",
-          textShadow: "0 0 8px var(--accent-2)",
-          letterSpacing: ".2em",
-          zIndex: 4,
-        }}
-      >
-        CPU {String(score.c).padStart(2, "0")}
-      </div>
-
-      <div
-        className="tiny pong-hint"
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: 8,
-          transform: "translateX(-50%)",
-          color: "#fff",
-          opacity: 0.55,
-          letterSpacing: ".2em",
-          zIndex: 4,
-          whiteSpace: "nowrap",
-        }}
-      >
-        <span className="pong-hint-full">
-          ▸ W/S OR ↑↓ · DRAG ON TOUCH ▸ FIRST TO {WIN_SCORE}
-        </span>
-        <span className="pong-hint-short">
-          ▸ DRAG TO PLAY ▸ FIRST TO {WIN_SCORE}
-        </span>
-      </div>
-
-      <style>{`
-        .pong-hint-short { display: none; }
-        @media (max-width: 640px) {
-          .pong-court {
-            aspect-ratio: 5/3 !important;
-          }
-          .pong-hint-full { display: none; }
-          .pong-hint-short { display: inline; }
-        }
-      `}</style>
-
       {banner && (
         <div
           style={{
@@ -546,6 +488,88 @@ export default function PongCourt() {
           </div>
         </div>
       )}
+    </div>
+
+      <div className="pong-scoreboard">
+        <div
+          className="tiny pong-score-p"
+          style={{
+            color: "var(--neon-lime)",
+            textShadow: "0 0 8px var(--neon-lime)",
+            letterSpacing: ".2em",
+          }}
+        >
+          PLAYER {String(score.p).padStart(2, "0")}
+        </div>
+        <div
+          className="tiny pong-score-c"
+          style={{
+            color: "var(--accent-2)",
+            textShadow: "0 0 8px var(--accent-2)",
+            letterSpacing: ".2em",
+          }}
+        >
+          CPU {String(score.c).padStart(2, "0")}
+        </div>
+      </div>
+
+      <div
+        className="tiny pong-hint"
+        style={{
+          color: "#fff",
+          opacity: 0.7,
+          letterSpacing: ".2em",
+          whiteSpace: "nowrap",
+        }}
+      >
+        <span className="pong-hint-full">
+          ▸ W/S OR ↑↓ · DRAG ON TOUCH ▸ FIRST TO {WIN_SCORE}
+        </span>
+        <span className="pong-hint-short">
+          ▸ DRAG TO PLAY ▸ FIRST TO {WIN_SCORE}
+        </span>
+      </div>
+
+      <style>{`
+        .pong-hint-short { display: none; }
+        .pong-scoreboard { display: contents; }
+        .pong-score-p,
+        .pong-score-c,
+        .pong-hint {
+          position: absolute;
+          z-index: 4;
+        }
+        .pong-score-p { left: 12px; top: 10px; }
+        .pong-score-c { right: 12px; top: 10px; }
+        .pong-hint {
+          left: 50%;
+          bottom: 8px;
+          transform: translateX(-50%);
+        }
+        @media (max-width: 640px) {
+          .pong-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+          .pong-court { order: 2; aspect-ratio: 5/3 !important; }
+          .pong-scoreboard {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            order: 1;
+          }
+          .pong-score-p,
+          .pong-score-c,
+          .pong-hint {
+            position: static;
+            transform: none;
+          }
+          .pong-hint { order: 3; align-self: center; }
+          .pong-hint-full { display: none; }
+          .pong-hint-short { display: inline; }
+        }
+      `}</style>
     </div>
   );
 }

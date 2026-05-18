@@ -14,7 +14,7 @@ export default function Home() {
           marginBottom: 18,
         }}
       >
-        ▸ SELECT CHANNEL
+        // CHANNEL 00
       </div>
 
       <div
@@ -58,8 +58,13 @@ export default function Home() {
             <br />
             KAMIN
           </h1>
-          <div className="tiny" style={{ color: "var(--fg-dim)" }}>
-            NEW JERSEY → SAN LUIS OBISPO → MIAMI → NEW YORK CITY → AUSTIN
+          <div className="tiny home-trail" style={{ color: "var(--fg-dim)" }}>
+            <span className="home-trail-full">
+              NEW JERSEY → SAN LUIS OBISPO → MIAMI → NEW YORK CITY → AUSTIN
+            </span>
+            <span className="home-trail-short">
+              NJ → SLO → MIA → NYC → ATX
+            </span>
           </div>
         </div>
 
@@ -125,10 +130,27 @@ export default function Home() {
       </div>
 
       <style>{`
+        .home-grid .tiny,
+        .home-grid .eyebrow {
+          font-size: 14px;
+          letter-spacing: 0.22em;
+        }
+        @media (max-width: 640px) {
+          .home-grid-status .tiny {
+            font-size: 10px;
+            letter-spacing: 0.16em;
+          }
+        }
+        .home-trail-short { display: none; }
+        @media (max-width: 640px) {
+          .home-trail-full { display: none; }
+          .home-trail-short { display: inline; }
+        }
         .channel-tile:hover {
           background: linear-gradient(160deg, color-mix(in oklch, var(--tile-accent) 35%, var(--panel-1)) 0%, var(--panel-2) 80%) !important;
           box-shadow: inset 0 0 28px color-mix(in oklch, var(--tile-accent) 25%, transparent),
                       0 0 24px color-mix(in oklch, var(--tile-accent) 35%, transparent) !important;
+          transition: var(--t-fast);
         }
         @media (max-width: 767px) {
           .home-grid-hero,
@@ -201,7 +223,6 @@ function GridTile({
           border: `1px solid color-mix(in oklch, ${accent} 55%, transparent)`,
           background: baseBg,
           color: "var(--fg)",
-          transition: "var(--t-fast)",
           boxShadow: `inset 0 0 20px color-mix(in oklch, ${accent} 12%, transparent)`,
           ["--tile-accent" as string]: accent,
         } as React.CSSProperties

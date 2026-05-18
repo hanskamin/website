@@ -70,8 +70,8 @@ export default function Nav() {
           className="tiny brand-meta"
           style={{
             fontFamily: "var(--body-stack)",
-            fontSize: 10,
-            letterSpacing: "0.24em",
+            fontSize: 13,
+            letterSpacing: "0.22em",
             color: "var(--fg-dim)",
             marginLeft: 12,
           }}
