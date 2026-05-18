@@ -20,12 +20,30 @@ const CPU_SPEED_Y = 0.82;
 const CPU_DEMO_SPEED_Y = 0.85;
 const CPU_DEAD_ZONE = 0.04;
 
-const WIN_SCORE = 7;
 const TAKEOVER_MS = 5000;
 const POINT_PAUSE_MS = 700;
 const GAME_PAUSE_MS = 2600;
 
 type Score = { p: number; c: number };
+
+function tennisLabels(p: number, c: number): { player: string; cpu: string } {
+  if (p >= 3 && c >= 3) {
+    if (p === c) return { player: "40", cpu: "40" };
+    if (p > c) return { player: "AD", cpu: "40" };
+    return { player: "40", cpu: "AD" };
+  }
+  const base = ["00", "15", "30", "40"];
+  return {
+    player: base[Math.min(p, 3)],
+    cpu: base[Math.min(c, 3)],
+  };
+}
+
+function isGameWon(p: number, c: number): "p" | "c" | null {
+  if (p >= 4 && p - c >= 2) return "p";
+  if (c >= 4 && c - p >= 2) return "c";
+  return null;
+}
 
 export default function PongCourt() {
   const courtRef = useRef<HTMLDivElement>(null);
@@ -227,8 +245,8 @@ export default function PongCourt() {
         if (s.ball.x < PLAY_LEFT - 0.05) {
           local.c += 1;
           setScore({ ...local });
-          if (local.c >= WIN_SCORE) {
-            setBanner("CPU WINS");
+          if (isGameWon(local.p, local.c) === "c") {
+            setBanner("GAME CPU");
             s.pauseUntil = now + GAME_PAUSE_MS;
             resetTimer = setTimeout(() => {
               local.p = 0;
@@ -243,8 +261,8 @@ export default function PongCourt() {
         } else if (s.ball.x > PLAY_RIGHT + 0.05) {
           local.p += 1;
           setScore({ ...local });
-          if (local.p >= WIN_SCORE) {
-            setBanner("PLAYER WINS");
+          if (isGameWon(local.p, local.c) === "p") {
+            setBanner("GAME PLAYER");
             s.pauseUntil = now + GAME_PAUSE_MS;
             resetTimer = setTimeout(() => {
               local.p = 0;
@@ -289,6 +307,8 @@ export default function PongCourt() {
       if (resetTimer) clearTimeout(resetTimer);
     };
   }, []);
+
+  const labels = tennisLabels(score.p, score.c);
 
   return (
     <div className="pong-wrapper" style={{ position: "relative" }}>
@@ -454,22 +474,14 @@ export default function PongCourt() {
           }}
         >
           <div
-            className="eyebrow"
-            style={{
-              color: "var(--accent-2)",
-              textShadow: "0 0 8px var(--accent-2)",
-              letterSpacing: ".35em",
-            }}
-          >
-            ▸ GAME ▸ FINAL
-          </div>
-          <div
             className="font-display-tube"
             style={{
               fontSize: "clamp(44px, 9vw, 104px)",
-              color: "var(--neon-lime)",
+              color: banner === "GAME CPU" ? "var(--accent-2)" : "var(--neon-lime)",
               textShadow:
-                "0 0 14px var(--neon-lime), 0 0 32px var(--neon-lime)",
+                banner === "GAME CPU"
+                  ? "0 0 14px var(--accent-2), 0 0 32px var(--accent-2)"
+                  : "0 0 14px var(--neon-lime), 0 0 32px var(--neon-lime)",
               letterSpacing: ".08em",
               lineHeight: 1,
             }}
@@ -483,8 +495,7 @@ export default function PongCourt() {
               letterSpacing: ".25em",
             }}
           >
-            {String(score.p).padStart(2, "0")} --{" "}
-            {String(score.c).padStart(2, "0")} ▸ RESTARTING
+            LOADING REMATCH...
           </div>
         </div>
       )}
@@ -499,7 +510,7 @@ export default function PongCourt() {
             letterSpacing: ".2em",
           }}
         >
-          PLAYER {String(score.p).padStart(2, "0")}
+          PLAYER {labels.player}
         </div>
         <div
           className="tiny pong-score-c"
@@ -509,7 +520,7 @@ export default function PongCourt() {
             letterSpacing: ".2em",
           }}
         >
-          CPU {String(score.c).padStart(2, "0")}
+          CPU {labels.cpu}
         </div>
       </div>
 
@@ -523,10 +534,10 @@ export default function PongCourt() {
         }}
       >
         <span className="pong-hint-full">
-          ▸ W/S OR ↑↓ · DRAG ON TOUCH ▸ FIRST TO {WIN_SCORE}
+          ▸ W/S OR ↑↓ · DRAG ON TOUCH
         </span>
         <span className="pong-hint-short">
-          ▸ DRAG TO PLAY ▸ FIRST TO {WIN_SCORE}
+          ▸ DRAG TO PLAY
         </span>
       </div>
 
