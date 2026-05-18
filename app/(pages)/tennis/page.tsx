@@ -9,6 +9,7 @@ export default function TennisPage() {
         kicker="// CHANNEL 04"
         title="TENNIS"
         sub="Never date a tennis player -- Love means nothing to them ;)"
+        subGridTemplate="minmax(0, 1.4fr) minmax(0, 1fr)"
       />
 
       <div
@@ -60,7 +61,7 @@ export default function TennisPage() {
               }}
             >
               A lifelong obsession. I picked up a racquet for the first time at
-              5 years old and haven&rsquo;t put it down. You can often find
+              5 years old, and I&rsquo;ll never give it up. You can often find
               me on any public courts, either after sunrise or before sunset.
             </p>
             <p
@@ -77,7 +78,7 @@ export default function TennisPage() {
           </Window>
 
           <Window
-            title="rivals.dir"
+            title="stats.dir"
             accent="var(--accent)"
             style={{ flex: 1 }}
           >
@@ -108,6 +109,7 @@ export default function TennisPage() {
         }
         @media (max-width: 640px) {
           .tennis-specs { grid-template-columns: repeat(2, 1fr) !important; }
+          .rival-record { font-size: 11px !important; }
         }
       `}</style>
     </div>
@@ -132,6 +134,7 @@ function Spec({ k, v }: { k: string; v: string }) {
           fontSize: 14,
           color: "var(--neon-lime)",
           textShadow: "0 0 6px var(--neon-lime)",
+          marginTop: 8,
         }}
       >
         {v}
@@ -154,7 +157,14 @@ function Rival({ name, record }: { name: string; record: string }) {
       <span className="font-display-tube" style={{ fontSize: 14 }}>
         {name}
       </span>
-      <span className="tiny" style={{ color: "var(--accent)" }}>
+      <span
+        className="tiny rival-record"
+        style={{
+          color: "var(--accent)",
+          fontSize: 14,
+          letterSpacing: "0.16em",
+        }}
+      >
         {record}
       </span>
     </li>

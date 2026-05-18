@@ -36,7 +36,7 @@ const TIMELINE: Role[] = [
     role: "Software Engineer",
     co: "Walmart",
     link: "https://www.linkedin.com/posts/hanskamin_teamwalmart-activity-6450815886025584640-rrat?utm_source=share&utm_medium=member_desktop&rcm=ACoAAB2ZIl0B5TfpjC2rjj96rQ7y2-u5h33Psqs",
-    body: "Four years building in React + React Native on the front, plus heavy Node.js on the back. Austin, TX.",
+    body: "Four years building in React + React Native on the frontend, plus heavy Node.js on the backend. Austin, TX.",
   },
   {
     year: "2015–19",
@@ -66,7 +66,8 @@ export default function SoftwarePage() {
       <SectionHead
         kicker="// CHANNEL 02"
         title="SOFTWARE"
-        sub="Fullstack engineer. React / React Native / Node / Python. Currently at Reflex, working from Austin, TX."
+        sub="Fullstack engineer. React / React Native / Node / Python. Currently at Reflex in Austin, TX."
+        subGridTemplate="minmax(0, 2fr) minmax(0, 1fr)"
       />
 
       <div
@@ -258,7 +259,6 @@ function LinkRow({
         padding: "10px 12px",
         border: "1px solid color-mix(in oklch, var(--accent) 35%, transparent)",
         background: "linear-gradient(180deg, var(--panel-1), var(--panel-2))",
-        transition: "var(--t-fast)",
         color: "var(--fg)",
         textDecoration: "none",
       }}
@@ -273,6 +273,7 @@ function LinkRow({
       <style>{`
         .link-row:hover {
           background: linear-gradient(180deg, color-mix(in oklch, var(--accent) 22%, var(--panel-1)), var(--panel-2)) !important;
+          transition: var(--t-fast);
         }
       `}</style>
     </a>

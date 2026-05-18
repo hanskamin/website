@@ -2,9 +2,36 @@ type Props = {
   kicker: string;
   title: string;
   sub?: string;
+  subGridTemplate?: string;
+  subGridGap?: number;
 };
 
-export default function SectionHead({ kicker, title, sub }: Props) {
+export default function SectionHead({
+  kicker,
+  title,
+  sub,
+  subGridTemplate,
+  subGridGap = 32,
+}: Props) {
+  const subParagraph = sub ? (
+    <p
+      style={{
+        color: "var(--fg)",
+        fontSize: 14,
+        lineHeight: 1.7,
+        margin: 0,
+        padding: "10px 14px",
+        background:
+          "linear-gradient(180deg, var(--panel-1), var(--panel-2))",
+        borderLeft: "2px solid var(--accent-2)",
+        boxShadow:
+          "0 0 16px color-mix(in oklch, var(--accent-2) 18%, transparent)",
+      }}
+    >
+      {sub}
+    </p>
+  ) : null;
+
   return (
     <div style={{ marginBottom: 32 }}>
       <div
@@ -28,24 +55,22 @@ export default function SectionHead({ kicker, title, sub }: Props) {
       >
         {title}
       </h1>
-      {sub && (
-        <p
-          style={{
-            maxWidth: 720,
-            color: "var(--fg)",
-            fontSize: 14,
-            lineHeight: 1.7,
-            padding: "10px 14px",
-            background:
-              "linear-gradient(180deg, var(--panel-1), var(--panel-2))",
-            borderLeft: "2px solid var(--accent-2)",
-            boxShadow:
-              "0 0 16px color-mix(in oklch, var(--accent-2) 18%, transparent)",
-          }}
-        >
-          {sub}
-        </p>
-      )}
+      {subParagraph &&
+        (subGridTemplate ? (
+          <div
+            className="section-sub-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: subGridTemplate,
+              gap: subGridGap,
+            }}
+          >
+            {subParagraph}
+            <div aria-hidden="true" />
+          </div>
+        ) : (
+          subParagraph
+        ))}
     </div>
   );
 }

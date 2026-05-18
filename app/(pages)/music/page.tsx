@@ -262,6 +262,7 @@ export default function MusicPage() {
         kicker="// CHANNEL 01"
         title="MUSIC"
         sub="Solo work released independently since 2021. Streamable wherever you listen."
+        subGridTemplate="minmax(0, 1.2fr) minmax(0, 1fr)"
       />
 
       <div
@@ -387,7 +388,12 @@ export default function MusicPage() {
                 </div>
                 <div
                   className="tiny"
-                  style={{ color: "var(--fg-dim)", marginTop: 6 }}
+                  style={{
+                    color: "var(--fg-dim)",
+                    marginTop: 8,
+                    fontSize: 15,
+                    letterSpacing: "0.18em",
+                  }}
                 >
                   HANS · {r.year}
                 </div>
@@ -451,37 +457,70 @@ export default function MusicPage() {
               >
                 <button
                   type="button"
-                  className="btn btn-ghost"
+                  className="btn btn-ghost skip-btn"
                   onClick={goPrev}
                   aria-label="Previous track"
-                  style={{ padding: "10px 16px", letterSpacing: "0.1em" }}
                 >
-                  ◄◄
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="5" y="5" width="3" height="14" fill="currentColor" />
+                    <path d="M20 5 L10 12 L20 19 Z" fill="currentColor" />
+                  </svg>
                 </button>
                 <button
                   type="button"
-                  className="btn"
+                  className="btn play-toggle"
                   onClick={togglePlay}
                   aria-label={isPlaying ? "Pause" : "Play"}
                   disabled={!isReady}
                   style={{
-                    minWidth: 110,
-                    justifyContent: "center",
-                    padding: "14px 24px",
-                    fontSize: 14,
                     opacity: isReady ? 1 : 0.55,
                   }}
                 >
-                  {isPlaying ? "❚❚ PAUSE" : "▸ PLAY"}
+                  {isPlaying ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+                      <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="22"
+                      height="22"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M7 4 L20 12 L7 20 Z" fill="currentColor" />
+                    </svg>
+                  )}
                 </button>
                 <button
                   type="button"
-                  className="btn btn-ghost"
+                  className="btn btn-ghost skip-btn"
                   onClick={goNext}
                   aria-label="Next track"
-                  style={{ padding: "10px 16px", letterSpacing: "0.1em" }}
                 >
-                  ►►
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M4 5 L14 12 L4 19 Z" fill="currentColor" />
+                    <rect x="16" y="5" width="3" height="14" fill="currentColor" />
+                  </svg>
                 </button>
               </div>
 
@@ -564,9 +603,39 @@ export default function MusicPage() {
           padding: 14px 12px;
           border-bottom: 1px dashed color-mix(in oklch, var(--accent) 30%, transparent);
           cursor: pointer;
+        }
+        .release-row:hover {
           transition: background var(--t-fast);
         }
         .release-num { font-size: 16px; }
+        .release-dur { font-size: 15px; letter-spacing: 0.14em; }
+        .now-playing-controls .play-toggle {
+          width: 64px;
+          height: 48px;
+          padding: 0;
+          line-height: 1;
+          letter-spacing: 0;
+          gap: 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .now-playing-controls .skip-btn {
+          width: 56px;
+          height: 48px;
+          padding: 0;
+          line-height: 1;
+          letter-spacing: 0;
+          gap: 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .now-playing-controls .play-toggle svg,
+        .now-playing-controls .skip-btn svg {
+          display: block;
+          filter: drop-shadow(0 0 6px currentColor);
+        }
         .release-title {
           color: var(--fg);
           font-size: 22px;
@@ -579,6 +648,8 @@ export default function MusicPage() {
 
         @media (max-width: 767px) {
           .music-grid { grid-template-columns: 1fr !important; }
+          .music-grid > :nth-child(1) { order: 2; }
+          .music-grid > :nth-child(2) { order: 1; }
           .releases-wrap {
             height: auto;
             max-height: 60vh;
@@ -606,6 +677,17 @@ export default function MusicPage() {
           .now-playing-controls { gap: 8px !important; }
           .now-playing-controls .btn { padding: 10px 14px !important; font-size: 12px; }
           .now-playing-controls .btn.btn-ghost { padding: 8px 12px !important; }
+          .now-playing-controls .play-toggle {
+            width: 56px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            font-size: 20px !important;
+          }
+          .now-playing-controls .skip-btn {
+            width: 48px !important;
+            height: 44px !important;
+            padding: 0 !important;
+          }
           .now-playing-title { font-size: 20px !important; }
           .now-playing-pri { font-size: 18px !important; }
         }

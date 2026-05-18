@@ -28,6 +28,7 @@ export default function VolunteeringPage() {
         kicker="// CHANNEL 03"
         title="VOLUNTEERING"
         sub="Mentoring high schoolers through the YMCA Model United Nations program."
+        subGridTemplate="minmax(0, 1fr) minmax(0, 1fr)"
       />
 
       <div
@@ -129,13 +130,13 @@ export default function VolunteeringPage() {
                 margin: 0,
               }}
             >
-              When I was in high school, my time competing in the YMCA Model
+              When I was in high school, competing in the YMCA Model
               United Nations debate program in Hershey, PA was the most
               formative growth opportunity I had the privilege of experiencing.
               Since 2018, I&rsquo;ve been fortunate enough to volunteer
               alongside other program alumni as a leadership staff member,
               mentoring high schoolers as they navigate the myriad challenges
-              that come with organizing, executing, and competing in a debate
+              associated with organizing, executing, and competing in a debate
               competition with peers from all over the tri-state area.
             </p>
           </Window>
@@ -152,9 +153,14 @@ export default function VolunteeringPage() {
               I have the distinct honor of serving as a national trip director
               for the program&rsquo;s most impressive participants. Each
               summer, I chaperone our 25 best & brightest students to the{" "}
-              <span style={{ color: "var(--accent)" }}>
+              <a
+                href="https://ymcacona.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "var(--accent)" }}
+              >
                 Conference on National Affairs
-              </span>{" "}
+              </a>{" "}
               in Blue Ridge, NC.
             </p>
             <p
