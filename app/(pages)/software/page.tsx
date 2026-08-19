@@ -199,6 +199,11 @@ export default function SoftwarePage() {
                 tag="SNG"
               />
               <LinkRow
+                href="https://gotchagame.xyz"
+                label="gotchagame.xyz"
+                tag="GTC"
+              />
+              <LinkRow
                 href="https://github.com/hanskamin"
                 label="github.com/hanskamin"
                 tag="GIT"
