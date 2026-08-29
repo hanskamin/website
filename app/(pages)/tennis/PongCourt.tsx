@@ -24,6 +24,10 @@ const TAKEOVER_MS = 5000;
 const POINT_PAUSE_MS = 700;
 const GAME_PAUSE_MS = 2600;
 
+// Cap simulation below native refresh (120Hz+ displays) to save power.
+const MAX_FPS = 60;
+const MIN_FRAME_MS = 1000 / MAX_FPS - 1;
+
 type Score = { p: number; c: number };
 
 function tennisLabels(p: number, c: number): { player: string; cpu: string } {
@@ -137,7 +141,9 @@ export default function PongCourt() {
 
   useEffect(() => {
     let raf = 0;
+    let running = false;
     let last = performance.now();
+    let lastFrame = 0;
     let resetTimer: ReturnType<typeof setTimeout> | null = null;
     const local: Score = { p: 0, c: 0 };
 
@@ -164,6 +170,10 @@ export default function PongCourt() {
     };
 
     const tick = (now: number) => {
+      if (!running) return;
+      raf = requestAnimationFrame(tick);
+      if (now - lastFrame < MIN_FRAME_MS) return;
+      lastFrame = now;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const s = sRef.current;
@@ -296,14 +306,37 @@ export default function PongCourt() {
           }px) translate(-50%, -50%)`;
         }
       }
+    };
 
+    const start = () => {
+      if (running) return;
+      running = true;
+      last = performance.now();
       raf = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(raf);
     };
 
     serve(Math.random() < 0.5 ? 1 : -1);
-    raf = requestAnimationFrame(tick);
+
+    // Only run the loop while the court is on screen.
+    const el = courtRef.current;
+    let io: IntersectionObserver | null = null;
+    if (el && typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) start();
+        else stop();
+      });
+      io.observe(el);
+    } else {
+      start();
+    }
+
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      io?.disconnect();
       if (resetTimer) clearTimeout(resetTimer);
     };
   }, []);

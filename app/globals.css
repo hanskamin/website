@@ -184,19 +184,32 @@ button {
   height: 50vh;
   transform: translateX(-50%) perspective(420px) rotateX(58deg);
   transform-origin: center top;
+  opacity: 0.85;
+  -webkit-mask-image: linear-gradient(to top, black 30%, transparent 90%);
+  mask-image: linear-gradient(to top, black 30%, transparent 90%);
+  overflow: hidden;
+}
+/* Grid lives on a transform-animated child: scrolling via translateY is
+   compositor-only, unlike background-position which repaints (and re-runs
+   the drop-shadow filter on) this huge layer every frame. */
+.bg-stack .grid-floor::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -56px;
+  bottom: 0;
   background-image:
     linear-gradient(to right, var(--neon-magenta) 1px, transparent 1px),
     linear-gradient(to bottom, var(--neon-magenta) 1px, transparent 1px);
   background-size: 56px 56px;
   filter: drop-shadow(0 0 6px var(--neon-magenta));
-  opacity: 0.85;
-  -webkit-mask-image: linear-gradient(to top, black 30%, transparent 90%);
-  mask-image: linear-gradient(to top, black 30%, transparent 90%);
+  will-change: transform;
   animation: grid-scroll 5.2s linear infinite;
 }
 @keyframes grid-scroll {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 0 56px, 0 56px; }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(56px); }
 }
 .bg-stack .scanlines {
   position: absolute;
