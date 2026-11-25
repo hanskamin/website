@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import profile from "@/public/static/images/profile.jpeg";
-import { CONTACT_LINKS, RELEASES } from "../content";
+import { CONTACT_LINKS } from "../content";
 
 const CHANNELS = [
-  { href: "/music", no: "01", name: "Music", sub: `${RELEASES.length} releases` },
-  { href: "/software", no: "02", name: "Software", sub: "Current work" },
-  { href: "/volunteering", no: "03", name: "Volunteering", sub: "Youth empowerment" },
-  { href: "/play", no: "04", name: "Play match", sub: "One game v. Borg" },
+  { href: "/music", no: "01", name: "Music" },
+  { href: "/software", no: "02", name: "Software" },
+  { href: "/volunteering", no: "03", name: "Volunteering" },
+  { href: "/play", no: "04", name: "Play match" },
 ];
 
 export default function HomeHud() {
@@ -18,7 +18,6 @@ export default function HomeHud() {
           <Image src={profile} alt="Hans Kamin" placeholder="blur" sizes="120px" priority />
         </div>
         <div className="lt-text">
-          <p className="kicker">Musician · Tennis player · Software engineer</p>
           <h1 className="lt-name">Hans Kamin</h1>
           <p className="lt-trail">
             <span className="trail-full">
@@ -41,7 +40,6 @@ export default function HomeHud() {
           <Link key={c.href} href={c.href} className="channel">
             <span className="ch-no">{c.no}</span>
             <span className="ch-name">{c.name}</span>
-            <span className="ch-sub">{c.sub}</span>
           </Link>
         ))}
       </nav>

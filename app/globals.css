@@ -462,12 +462,6 @@ button {
   font-size: 23px;
   line-height: 1.15;
 }
-.ch-sub {
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--cream-dim);
-}
 .channel:last-child {
   background: var(--ink);
   border-color: #1d4a37;
@@ -1263,11 +1257,8 @@ button {
     font-size: 10px;
     letter-spacing: 0.14em;
   }
-  .trail-full {
+  .lt-trail {
     display: none;
-  }
-  .trail-short {
-    display: inline;
   }
   .channels {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1396,7 +1387,7 @@ button {
     align-items: flex-end;
     gap: 14px;
   }
-  .lower-third .kicker,
+  .lt-trail,
   .lt-links {
     display: none;
   }
@@ -1418,9 +1409,6 @@ button {
   }
   .ch-name {
     font-size: 16px;
-  }
-  .ch-sub {
-    display: none;
   }
   .view-home .shade {
     background: linear-gradient(180deg, rgba(6, 24, 15, 0.6) 0, rgba(6, 24, 15, 0) 22%, rgba(6, 24, 15, 0) 55%, rgba(6, 24, 15, 0.9) 100%);
