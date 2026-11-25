@@ -155,29 +155,16 @@ function buildMusic(disposables: { dispose: () => void }[]) {
     shade.addColorStop(1, "rgba(0,0,0,0.82)");
     ctx.fillStyle = shade;
     ctx.fillRect(0, 0, w, h);
-    ctx.textBaseline = "alphabetic";
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#f4cf2a";
-    ctx.font = "700 26px ui-monospace, Menlo, monospace";
-    const label = !state
-      ? "HANS · LIVE AT CENTRE COURT"
-      : state.playing
-        ? `NOW PLAYING · ${String(state.index + 1).padStart(2, "0")} / ${state.total}`
-        : `${String(state.index + 1).padStart(2, "0")} / ${state.total}`;
-    ctx.fillText(label, 44, h - 118);
-    ctx.fillStyle = "#fbf6e6";
-    let size = 76;
-    const title = state ? state.title : "the bandstand";
-    do {
-      ctx.font = `700 ${size}px Georgia, "Times New Roman", serif`;
-      size -= 4;
-    } while (ctx.measureText(title).width > w - 88 && size > 28);
-    ctx.fillText(title, 44, h - 46);
     if (state) {
-      ctx.textAlign = "right";
-      ctx.fillStyle = "#f4cf2a";
-      ctx.font = "700 30px ui-monospace, Menlo, monospace";
-      ctx.fillText(`HANS · ${state.year}`, w - 44, 60);
+      ctx.textBaseline = "alphabetic";
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#fbf6e6";
+      let size = 76;
+      do {
+        ctx.font = `700 ${size}px Georgia, "Times New Roman", serif`;
+        size -= 4;
+      } while (ctx.measureText(state.title).width > w - 88 && size > 28);
+      ctx.fillText(state.title, 44, h - 46);
     }
     screenTex.needsUpdate = true;
   };
