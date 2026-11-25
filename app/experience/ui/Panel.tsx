@@ -2,13 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export default function Panel({
-  kicker,
   title,
   expanded,
   onToggle,
   children,
 }: {
-  kicker: string;
   title: string;
   expanded: boolean;
   onToggle: () => void;
@@ -26,10 +24,7 @@ export default function Panel({
         <span />
       </button>
       <header className="panel-head">
-        <div>
-          <p className="kicker">{kicker}</p>
-          <h1>{title}</h1>
-        </div>
+        <h1>{title}</h1>
         <Link href="/" className="panel-close" aria-label="Back to Centre Court">
           ✕
         </Link>

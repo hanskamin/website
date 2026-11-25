@@ -11,7 +11,7 @@ export default function MusicPanel({ music }: { music: MusicPlayer }) {
   return (
     <>
       <p className="lede">
-        Solo work released independently since 2021. Streamable wherever you listen.
+        Available on all streaming platforms.
       </p>
 
       <section className="now" aria-label="Now playing">
@@ -31,7 +31,7 @@ export default function MusicPanel({ music }: { music: MusicPlayer }) {
           />
         </div>
         <div className="now-main">
-          <p className="label">{music.playing ? "Now playing" : "Cued"}</p>
+          {music.playing && <p className="label">Now playing</p>}
           <h2 className="now-title">{r.title}</h2>
           <p className="now-meta">Hans · {r.year}</p>
 

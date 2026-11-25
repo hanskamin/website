@@ -31,7 +31,7 @@ export default function SoftwarePanel({
 
       <section aria-label="Career">
         <h2 className="section-title">
-          Career <span>Select a monitor</span>
+          Career
         </h2>
         <ol className="career">
           {TIMELINE.map((t, i) => (

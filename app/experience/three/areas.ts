@@ -163,7 +163,7 @@ function buildMusic(disposables: { dispose: () => void }[]) {
       ? "HANS · LIVE AT CENTRE COURT"
       : state.playing
         ? `NOW PLAYING · ${String(state.index + 1).padStart(2, "0")} / ${state.total}`
-        : `CUED · ${String(state.index + 1).padStart(2, "0")} / ${state.total}`;
+        : `${String(state.index + 1).padStart(2, "0")} / ${state.total}`;
     ctx.fillText(label, 44, h - 118);
     ctx.fillStyle = "#fbf6e6";
     let size = 76;
@@ -425,7 +425,6 @@ function buildSoftware(
       ctx.textBaseline = "alphabetic";
       ctx.textAlign = "left";
       ctx.font = "700 30px ui-monospace, Menlo, monospace";
-      ctx.fillText(`CH ${String(i + 1).padStart(2, "0")}`, 30, 54);
       ctx.textAlign = "right";
       ctx.fillText(on ? "● LIVE" : "○", w - 30, 54);
       ctx.textAlign = "left";
@@ -547,36 +546,50 @@ function buildSoftware(
 
 // ── Volunteering: the royal box at the south end ─────────────────────────
 
+// Great Britain, Switzerland, Serbia, Spain.
 function flagTexture(kind: number) {
-  const palettes = [
-    ["#1f4fa3", "#f4f1e8", "#c5343c"],
-    ["#1d7a4a", "#f4f1e8", "#e2a93b"],
-    ["#c5343c", "#f4cf2a", "#1d7a4a"],
-    ["#5b9bd5", "#f4f1e8", "#5b9bd5"],
-    ["#101820", "#c5343c", "#f4cf2a"],
-    ["#e2a93b", "#1f4fa3", "#f4f1e8"],
-    ["#4b2a6b", "#f4f1e8", "#1d7a4a"],
-    ["#c5343c", "#f4f1e8", "#1f4fa3"],
-  ];
-  const p = palettes[kind % palettes.length];
   return canvasTexture(96, 64, (ctx, w, h) => {
-    if (kind % 3 === 0) {
-      p.forEach((c, i) => {
+    const stripes = (colors: string[], weights: number[]) => {
+      const total = weights.reduce((a, b) => a + b, 0);
+      let y = 0;
+      colors.forEach((c, i) => {
+        const sh = (weights[i] / total) * h;
         ctx.fillStyle = c;
-        ctx.fillRect(0, (i * h) / 3, w, h / 3 + 1);
+        ctx.fillRect(0, y, w, sh + 1);
+        y += sh;
       });
-    } else if (kind % 3 === 1) {
-      p.forEach((c, i) => {
-        ctx.fillStyle = c;
-        ctx.fillRect((i * w) / 3, 0, w / 3 + 1, h);
-      });
-    } else {
-      ctx.fillStyle = p[0];
+    };
+    if (kind === 0) {
+      ctx.fillStyle = "#012169";
       ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = p[1];
-      ctx.beginPath();
-      ctx.arc(w / 2, h / 2, h * 0.28, 0, Math.PI * 2);
-      ctx.fill();
+      const diag = (color: string, width: number) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(w, h);
+        ctx.moveTo(w, 0);
+        ctx.lineTo(0, h);
+        ctx.stroke();
+      };
+      diag("#ffffff", h * 0.2);
+      diag("#c8102e", h * 0.067);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, h / 3, w, h / 3);
+      ctx.fillRect(w / 2 - h / 6, 0, h / 3, h);
+      ctx.fillStyle = "#c8102e";
+      ctx.fillRect(0, h * 0.4, w, h * 0.2);
+      ctx.fillRect(w / 2 - h * 0.1, 0, h * 0.2, h);
+    } else if (kind === 1) {
+      ctx.fillStyle = "#da291c";
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(w / 2 - h * 0.1, h * 0.2, h * 0.2, h * 0.6);
+      ctx.fillRect(w / 2 - h * 0.3, h * 0.4, h * 0.6, h * 0.2);
+    } else if (kind === 2) {
+      stripes(["#c6363c", "#0c4076", "#ffffff"], [1, 1, 1]);
+    } else {
+      stripes(["#aa151b", "#f1bf00", "#aa151b"], [1, 2, 1]);
     }
   });
 }
@@ -618,7 +631,8 @@ function buildVolunteering(
     }
   }
   // Flag poles in the back corners, for the Model United Nations.
-  const FLAG_X = [3.75, 4.6, 5.45, -3.75, -4.6, -5.45];
+  // Seen from the court, +x is on the left: Great Britain, Switzerland, Serbia, Spain.
+  const FLAG_X = [4.6, 3.75, -3.75, -4.6];
   for (const x of FLAG_X) {
     b.cyl(0.03, 0.035, 4.1, 0xd9d2bd, x, yF + 2.05, dB - 0.55);
     b.sphere(0.06, K.COLORS.gold, x, yF + 4.14, dB - 0.55);

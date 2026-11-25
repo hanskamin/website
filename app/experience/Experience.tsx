@@ -24,9 +24,9 @@ const VIEWS: Record<string, ViewId> = {
 };
 
 const AREA = {
-  music: { kicker: "North stand · The bandstand", title: "Music" },
-  software: { kicker: "West stand · The press box", title: "Software" },
-  volunteering: { kicker: "South stand · The royal box", title: "Volunteering" },
+  music: "Music",
+  software: "Software",
+  volunteering: "Volunteering",
 } as const;
 
 function photoUrl(src: string, w: number) {
@@ -65,7 +65,11 @@ export default function Experience() {
         const small = window.innerWidth < 820;
         handle = createWorld(canvas, {
           monitors: TIMELINE.map((t) => ({ year: t.year, role: t.role, co: t.co })),
-          stack: STACK.map((s) => `${s.tag} ${s.label.toUpperCase()}`),
+          stack: STACK.map((s) =>
+            s.tag === "FRONT" || s.tag === "BACK"
+              ? s.label.toUpperCase()
+              : `${s.tag} ${s.label.toUpperCase()}`,
+          ),
           photos: VOL_PHOTOS.map((p) => photoUrl(p.src, small ? 828 : 1200)),
           reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
           onPick: (kind, index) => {
@@ -234,8 +238,7 @@ export default function Experience() {
       {area && (
         <Panel
           key={area}
-          kicker={AREA[area].kicker}
-          title={AREA[area].title}
+          title={AREA[area]}
           expanded={expanded}
           onToggle={() => setExpanded((e) => !e)}
         >

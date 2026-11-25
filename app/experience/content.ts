@@ -68,7 +68,7 @@ export const TIMELINE: Role[] = [
     role: "Computer Science",
     co: "Cal Poly SLO",
     link: "https://www.calpoly.edu/",
-    body: "Studied computer science. Learn-by-doing. San Luis Obispo, CA.",
+    body: "Learn-by-doing. San Luis Obispo, CA.",
   },
 ];
 
@@ -88,6 +88,7 @@ export const STACK: { tag: string; label: string }[] = [
 export const SOFTWARE_LINKS = [
   { href: "https://songtransposer.com", label: "songtransposer.com", tag: "SNG" },
   { href: "https://gotchagame.xyz", label: "gotchagame.xyz", tag: "GTC" },
+  { href: "https://gutcheckgroceries.com", label: "gutcheckgroceries.com", tag: "GUT" },
   { href: "https://github.com/hanskamin", label: "github.com/hanskamin", tag: "GIT" },
   { href: "https://linkedin.com/in/hanskamin", label: "linkedin.com/in/hanskamin", tag: "LNK" },
   { href: "https://reflex.careers", label: "reflex.careers", tag: "WRK" },
