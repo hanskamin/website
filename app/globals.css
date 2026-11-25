@@ -345,7 +345,14 @@ button {
   opacity: 1;
   transform: none;
 }
+/* The photo is a square as tall as the text: from the top of the capitals
+   to the bottom of the link underline. Text height = name line (0.92em)
+   less the space above the capitals (0.1675em), plus the 10px gap, plus
+   the link line (1.6 line height + 8px padding + 1px underline). */
 .lower-third {
+  --name: clamp(46px, 6.6vw, 104px);
+  --link: 11px;
+  --photo: calc(var(--name) * 0.7525 + var(--link) * 1.6 + 19px);
   display: flex;
   align-items: flex-start;
   gap: 18px;
@@ -353,8 +360,8 @@ button {
 }
 .lt-portrait {
   flex: none;
-  width: 104px;
-  height: 104px;
+  width: var(--photo);
+  height: var(--photo);
   border: 2px solid var(--gold);
   background: var(--green-800);
   overflow: hidden;
@@ -372,10 +379,10 @@ button {
    height 0.92, ascent 1.082, descent 0.251, cap height 0.708. Space above
    the capitals = (0.92 - 1.333) / 2 + 1.082 - 0.708 = 0.1675em. */
 .lt-name {
-  margin: -0.1675em 0 6px;
+  margin: -0.1675em 0 0;
   font-family: var(--display);
   font-weight: 900;
-  font-size: clamp(46px, 6.6vw, 104px);
+  font-size: var(--name);
   line-height: 0.92;
   letter-spacing: -0.01em;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
@@ -385,7 +392,8 @@ button {
   flex-wrap: wrap;
   gap: 4px 16px;
   margin-top: 10px;
-  font-size: 11px;
+  font-size: var(--link);
+  line-height: 1.6;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
@@ -846,6 +854,12 @@ button {
 .match > * {
   pointer-events: auto;
 }
+/* No text selection or copy menu while on the match screen. */
+.view-play {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
 .touch-layer {
   position: absolute;
   inset: 0;
@@ -1137,22 +1151,16 @@ button {
     pointer-events: none;
     background: linear-gradient(180deg, rgba(21, 33, 26, 0) 0, #152119 110px);
   }
+  /* Links stay on one line. Full size at 440px wide (iPhone 16 Pro Max)
+     and up; on narrower phones the text and gaps scale down together. */
   .lower-third {
+    --name: clamp(38px, 12vw, 60px);
+    --link: min(11px, 2.5vw);
     gap: 12px;
   }
-  .lt-portrait {
-    width: 68px;
-    height: 68px;
-  }
-  .lt-name {
-    font-size: clamp(38px, 12vw, 60px);
-  }
-  /* Keep the four links on one line. Full size at 440px wide (iPhone 16 Pro
-     Max) and up; on narrower phones the text and gaps scale down together. */
   .lt-links {
     flex-wrap: nowrap;
     gap: 0 1.2em;
-    font-size: min(11px, 2.5vw);
     white-space: nowrap;
   }
   .kicker {

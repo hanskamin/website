@@ -179,7 +179,7 @@ export default function MatchHud({
         </div>
       )}
 
-      {live && hint && !call && <p className="hint">{hint}</p>}
+      {live && hint && !call && !touch && <p className="hint">{hint}</p>}
 
       {live && touch && (
         <>
