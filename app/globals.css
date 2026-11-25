@@ -1147,6 +1147,14 @@ button {
   .lt-name {
     font-size: clamp(38px, 12vw, 60px);
   }
+  /* Keep the four links on one line. Full size at 440px wide (iPhone 16 Pro
+     Max) and up; on narrower phones the text and gaps scale down together. */
+  .lt-links {
+    flex-wrap: nowrap;
+    gap: 0 1.2em;
+    font-size: min(11px, 2.5vw);
+    white-space: nowrap;
+  }
   .kicker {
     font-size: 10px;
     letter-spacing: 0.14em;
