@@ -108,20 +108,6 @@ export const VOL_PHOTOS = [
   { src: "/static/images/cona-sunset.jpeg", w: 3024, h: 1701 },
 ];
 
-export const TENNIS_SPECS = [
-  { k: "Grip", v: "Semi-western" },
-  { k: "Racquet", v: "Ezone 98" },
-  { k: "Fav shot", v: "Forehand" },
-  { k: "Fav surface", v: "Clay" },
-];
-
-export const TENNIS_RIVALS = [
-  { name: "The wind", record: "2 - 18 mph" },
-  { name: "A good backhand", record: "404 not found" },
-  { name: "Roger Federer", record: "The GOAT" },
-  { name: "The bakery", record: "Open 4 biz" },
-];
-
 export function fmtTime(sec: number) {
   if (!Number.isFinite(sec) || sec < 0) sec = 0;
   const m = Math.floor(sec / 60);

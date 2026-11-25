@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { WorldHandle } from "../three/world";
 import type { Call, GameSnapshot } from "../three/game";
-import { TENNIS_RIVALS, TENNIS_SPECS } from "../content";
 
 const STICK_R = 54;
 
@@ -202,7 +201,6 @@ export default function MatchHud({
 
       {phase === "idle" && (
         <div className="card" role="dialog" aria-label="Play match">
-          <p className="kicker">Centre Court · 6 July 2008 · Final</p>
           <h1>Play match</h1>
           {failed ? (
             <p className="prose">
@@ -234,7 +232,7 @@ export default function MatchHud({
               </ul>
               <div className="card-actions">
                 <button type="button" className="btn btn-primary" onClick={start} disabled={!world}>
-                  {world ? "Walk on court" : "Loading…"}
+                  {world ? "Serve it out" : "Loading…"}
                 </button>
                 <Link href="/" className="btn">
                   Back
@@ -242,34 +240,6 @@ export default function MatchHud({
               </div>
             </>
           )}
-          <details className="about-tennis">
-            <summary>Hans and tennis</summary>
-            <p className="prose">
-              A lifelong obsession. I picked up a racquet for the first time at 5 years old,
-              and I&rsquo;ll never give it up. You can often find me on any public courts,
-              either after sunrise or before sunset.
-            </p>
-            <p className="prose prose-dim">
-              A crisp forehand down the line is my favorite shot. No better feeling. Never
-              date a tennis player -- Love means nothing to them ;)
-            </p>
-            <dl className="specs">
-              {TENNIS_SPECS.map((s) => (
-                <div key={s.k}>
-                  <dt>{s.k}</dt>
-                  <dd>{s.v}</dd>
-                </div>
-              ))}
-            </dl>
-            <ul className="rivals">
-              {TENNIS_RIVALS.map((r) => (
-                <li key={r.name}>
-                  <span>{r.name}</span>
-                  <span>{r.record}</span>
-                </li>
-              ))}
-            </ul>
-          </details>
         </div>
       )}
 
@@ -279,7 +249,7 @@ export default function MatchHud({
           <h1>{won ? "Game, set and match, Nadal" : "Game, Federer"}</h1>
           <p className="prose">
             {won
-              ? "The same result as 6 July 2008. Nadal wins his first Wimbledon title."
+              ? "The same result as July 6th, 2008. Nadal wins his first Wimbledon title."
               : "Federer broke your serve on Centre Court. The fifth set goes on."}
           </p>
           <div className="card-actions">
