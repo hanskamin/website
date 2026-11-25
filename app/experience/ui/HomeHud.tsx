@@ -1,0 +1,41 @@
+import Image from "next/image";
+import Link from "next/link";
+import profile from "@/public/static/images/profile.jpeg";
+import { CONTACT_LINKS } from "../content";
+
+const CHANNELS = [
+  { href: "/music", name: "Music" },
+  { href: "/software", name: "Software" },
+  { href: "/volunteering", name: "Volunteering" },
+  { href: "/play", name: "Play match" },
+];
+
+export default function HomeHud() {
+  return (
+    <div className="home">
+      <section className="lower-third">
+        <div className="lt-portrait">
+          <Image src={profile} alt="Hans Kamin" placeholder="blur" sizes="120px" priority />
+        </div>
+        <div className="lt-text">
+          <h1 className="lt-name">Hans Kamin</h1>
+          <nav className="lt-links" aria-label="Contact">
+            {CONTACT_LINKS.map((l) => (
+              <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
+                {l.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </section>
+
+      <nav className="channels" aria-label="Sections">
+        {CHANNELS.map((c) => (
+          <Link key={c.href} href={c.href} className="channel">
+            <span className="ch-name">{c.name}</span>
+          </Link>
+        ))}
+      </nav>
+    </div>
+  );
+}

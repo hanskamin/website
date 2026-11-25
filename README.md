@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# hanskamin.com
 
-## Getting Started
+The site is one 3D scene: a stylised Centre Court, as in the 2008 final. The page opens on a TV view of the court. Federer and Nadal rally in the background.
 
-First, run the development server:
+| Route | Camera goes to | Content |
+| --- | --- | --- |
+| `/` | TV view | Name, links, the four options |
+| `/music` | The bandstand (north stand) | Releases and the player |
+| `/software` | The press box (west stand) | Career, stack, links |
+| `/volunteering` | The royal box (south stand) | Photographs and text |
+| `/play` | Behind Nadal | One game against a computer-controlled Federer |
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/layout.tsx` mounts `Experience`. The route pages render nothing: the path only selects the camera view, so the scene stays alive between pages.
+- `app/experience/three/` is the scene (three.js, no model files: all geometry and textures are made in code).
+  - `stadium.ts` court, stands, roof, crowd, scoreboards
+  - `areas.ts` the three pavilions
+  - `players.ts` the two player rigs and their strokes
+  - `game.ts` rules, ball physics, the computer player
+  - `world.ts` renderer, camera rig, picking, main loop
+- `app/experience/ui/` is the HTML overlay (panels, match HUD).
+- `app/experience/content.ts` holds the text and data for all sections.

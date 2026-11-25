@@ -1,22 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Audiowide } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import clsx from "clsx";
-import BgStack from "./ui/BgStack";
-import Nav from "./ui/Nav";
-import Footer from "./ui/Footer";
+import Experience from "./experience/Experience";
 
-const audiowide = Audiowide({
-  variable: "--font-audiowide",
+const display = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["500", "700", "900"],
   display: "swap",
 });
 
-// TX-02 (Berkeley Graphics) -- self-hosted. No oblique cuts loaded:
-// zero italics across the site is enforced by the global font-style rule
-// in globals.css as well.
+// TX-02 (Berkeley Graphics) -- self-hosted. No oblique cuts loaded.
 const tx02 = localFont({
   variable: "--font-tx02",
   display: "swap",
@@ -27,15 +23,16 @@ const tx02 = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Hans Kamin",
+  title: { default: "Hans Kamin", template: "%s · Hans Kamin" },
   description:
-    "Hans Kamin -- musician, tennis player, software engineer. Broadcasting from Austin, TX.",
+    "Hans Kamin -- musician, tennis player, software engineer. Live from Centre Court.",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#0c2a1f",
 };
 
 export default function RootLayout({
@@ -44,18 +41,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      data-theme="night"
-      className={clsx(audiowide.variable, tx02.variable)}
-    >
-      <body className="antialiased">
-        <BgStack />
-        <div className="app-shell">
-          <Nav />
-          <main className="relative z-10 flex-1">{children}</main>
-          <Footer />
-        </div>
+    <html lang="en" className={clsx(display.variable, tx02.variable)}>
+      <body>
+        <Experience />
+        {children}
       </body>
     </html>
   );
