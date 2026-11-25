@@ -4,10 +4,10 @@ import profile from "@/public/static/images/profile.jpeg";
 import { CONTACT_LINKS } from "../content";
 
 const CHANNELS = [
-  { href: "/music", no: "01", name: "Music" },
-  { href: "/software", no: "02", name: "Software" },
-  { href: "/volunteering", no: "03", name: "Volunteering" },
-  { href: "/play", no: "04", name: "Play match" },
+  { href: "/music", name: "Music" },
+  { href: "/software", name: "Software" },
+  { href: "/volunteering", name: "Volunteering" },
+  { href: "/play", name: "Play match" },
 ];
 
 export default function HomeHud() {
@@ -32,7 +32,6 @@ export default function HomeHud() {
       <nav className="channels" aria-label="Sections">
         {CHANNELS.map((c) => (
           <Link key={c.href} href={c.href} className="channel">
-            <span className="ch-no">{c.no}</span>
             <span className="ch-name">{c.name}</span>
           </Link>
         ))}

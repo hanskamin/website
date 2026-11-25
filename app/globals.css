@@ -409,7 +409,6 @@ button {
   gap: 2px;
   padding: 12px 14px 14px;
   border: 1px solid var(--cream-faint);
-  border-top: 3px solid var(--gold);
   background: var(--glass);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -419,12 +418,6 @@ button {
   transform: translateY(-4px);
   background: var(--purple);
   border-color: var(--purple-300);
-  border-top-color: var(--yellow);
-}
-.ch-no {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--gold);
 }
 .ch-name {
   font-family: var(--display);
@@ -435,10 +428,8 @@ button {
 .channel:last-child {
   background: var(--ink);
   border-color: #1d4a37;
-  border-top-color: var(--yellow);
 }
-.channel:last-child .ch-name,
-.channel:last-child .ch-no {
+.channel:last-child .ch-name {
   color: var(--yellow);
 }
 .channel:last-child:hover {
@@ -1201,6 +1192,19 @@ button {
     align-items: stretch;
     gap: 14px;
   }
+  /* A solid green behind the name and the cards, so no part of the scene
+     shows as a dark band above the name. It fades out at the top. */
+  .home::before {
+    content: "";
+    position: absolute;
+    top: -160px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(21, 33, 26, 0) 0, #152119 110px);
+  }
   .lower-third {
     gap: 12px;
   }
@@ -1334,6 +1338,9 @@ button {
     flex-direction: row;
     align-items: flex-end;
     gap: 14px;
+  }
+  .home::before {
+    display: none;
   }
   .lt-links {
     display: none;
