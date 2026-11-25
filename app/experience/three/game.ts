@@ -98,6 +98,8 @@ export class Game {
   federer: Actor;
 
   private input = { x: 0, y: 0 };
+  /** Shots the CPU has hit this point. Long rallies make it miss more. */
+  private cpuShots = 0;
   private nextAt = 0;
   private serveReadyAt = 0;
   private tossAt = 0;
@@ -251,6 +253,7 @@ export class Game {
     this.ball.state = "held";
     this.ball.bounces = 0;
     this.nadal.plan = this.federer.plan = null;
+    this.cpuShots = 0;
     this.serveContactAt = 0;
     this.serveHitAt = 0;
     this.marker.visible = false;
@@ -475,7 +478,19 @@ export class Game {
     const sigma = (0.6 + stretch * 1.0 + (bold ? 0.1 : 0)) * a.err;
     tx += gauss() * sigma;
     depth += gauss() * sigma * 1.2;
-    if (Math.random() < 0.012 * a.err + stretch * 0.06 + (bold ? 0.02 : 0)) {
+    // Against a visitor, Federer makes unforced errors, more as the rally gets long.
+    const n = this.cpuShots++;
+    const miss = vsHuman ? 0.06 + Math.min(0.14, n * 0.012) + stretch * 0.08 : 0;
+    const roll = Math.random();
+    if (roll < miss * 0.5) {
+      // Long or wide.
+      if (Math.random() < 0.55) depth = rnd(K.HALF_LEN + 0.35, K.HALF_LEN + 1.5);
+      else tx = (tx >= 0 ? 1 : -1) * rnd(K.SINGLES_W + 0.3, K.SINGLES_W + 1.1);
+      this.launch(tx, a.face * depth, T, true);
+    } else if (
+      roll < miss ||
+      Math.random() < 0.012 * a.err + stretch * 0.06 + (bold ? 0.02 : 0)
+    ) {
       this.launch(tx, a.face * 1.2, 0.75, false);
     } else {
       this.launch(tx, a.face * depth, T, true);
