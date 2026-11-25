@@ -102,12 +102,13 @@ function sample(track: Track, t: number, out: Pose) {
 }
 
 export type PlayerLook = {
-  name: "borg" | "mac";
+  name: "federer" | "nadal";
   lefty: boolean;
   skin: number;
   hair: number;
   shorts: number;
   racket: number;
+  racketTrim: number;
   grip: number;
   shoeAccent: number;
 };
@@ -115,22 +116,14 @@ export type PlayerLook = {
 const L1 = 0.43;
 const L2 = 0.47;
 
-function shirtTexture(name: "borg" | "mac") {
+function shirtTexture(name: "federer" | "nadal") {
   const tex = canvasTexture(128, 128, (ctx, w, h) => {
-    ctx.fillStyle = name === "borg" ? "#f3ecda" : "#f6f5f0";
+    ctx.fillStyle = "#f7f6f1";
     ctx.fillRect(0, 0, w, h);
-    if (name === "borg") {
-      // Fine pinstripes.
-      ctx.fillStyle = "#2a3f73";
-      for (let x = 0; x < w; x += 8) ctx.fillRect(x, 0, 1.5, h);
-      ctx.fillStyle = "#b63a3a";
-      for (let x = 4; x < w; x += 16) ctx.fillRect(x, 0, 1, h);
-    } else {
-      // Navy and red band across the chest.
-      ctx.fillStyle = "#1f3566";
-      ctx.fillRect(0, 22, w, 20);
-      ctx.fillStyle = "#c4262e";
-      ctx.fillRect(0, 44, w, 6);
+    if (name === "federer") {
+      // White polo with a thin gold line across the chest.
+      ctx.fillStyle = "#c9a23f";
+      ctx.fillRect(0, 30, w, 2.5);
     }
   });
   return tex;
@@ -195,7 +188,11 @@ export class PlayerRig {
     const shirtTex = shirtTexture(look.name);
     this.textures.push(shirtTex);
     const shirt = lambert(0xffffff, shirtTex);
-    const sleeve = lambert(look.name === "borg" ? 0xf3ecda : 0xf6f5f0);
+    const sleeve = lambert(0xf7f6f1);
+    // Nadal: sleeveless shirt and shorts to below the knee.
+    const sleeveless = look.name === "nadal";
+    const capri = look.name === "nadal";
+    const shortsMat = lambert(look.shorts);
     const add = (parent: THREE.Object3D, mesh: THREE.Mesh) => {
       mesh.castShadow = true;
       parent.add(mesh);
@@ -209,17 +206,13 @@ export class PlayerRig {
     const chest = add(this.torso, new THREE.Mesh(new THREE.CapsuleGeometry(0.15, 0.27, 4, 12), shirt));
     chest.position.y = 0.285;
     chest.scale.set(1.16, 1, 0.74);
-    const collar = add(
-      this.torso,
-      new THREE.Mesh(
-        new THREE.CylinderGeometry(0.062, 0.085, 0.05, 10),
-        lambert(look.name === "borg" ? 0x22346a : 0x1f3566),
-      ),
-    );
-    collar.position.y = 0.555;
+    if (!sleeveless) {
+      const collar = add(this.torso, new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.085, 0.05, 10), white));
+      collar.position.y = 0.555;
+    }
     const neck = add(this.torso, new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 0.1, 8), skin));
     neck.position.y = 0.6;
-    const shorts = add(this.body, new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.2, 0.25, 12), lambert(look.shorts)));
+    const shorts = add(this.body, new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.2, 0.25, 12), shortsMat));
     shorts.position.y = -0.045;
     shorts.scale.set(1, 1, 0.78);
 
@@ -245,8 +238,10 @@ export class PlayerRig {
       this.torso.add(sh);
       sh.position.set(x, 0.47, 0);
       sh.rotation.order = "YXZ";
-      const slv = add(sh, new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.09, 3, 8), sleeve));
-      slv.position.y = -0.07;
+      if (!sleeveless) {
+        const slv = add(sh, new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.09, 3, 8), sleeve));
+        slv.position.y = -0.07;
+      }
       const upper = add(sh, new THREE.Mesh(new THREE.CapsuleGeometry(0.043, 0.2, 3, 8), skin));
       upper.position.y = -0.14;
       sh.add(el);
@@ -262,8 +257,8 @@ export class PlayerRig {
       el.add(hand);
       hand.position.y = -0.275;
     };
-    arm(this.shR, this.elR, -0.215 * m, this.racket, look.name === "borg" ? 0xc8343a : 0xf4f2ea);
-    arm(this.shO, this.elO, 0.215 * m, this.offHand, look.name === "borg" ? 0xf4f2ea : null);
+    arm(this.shR, this.elR, -0.215 * m, this.racket, 0xf4f2ea);
+    arm(this.shO, this.elO, 0.215 * m, this.offHand, look.name === "nadal" ? 0xf4f2ea : null);
 
     // Legs.
     const leg = (th: THREE.Group, kn: THREE.Group, x: number) => {
@@ -273,6 +268,12 @@ export class PlayerRig {
       thigh.position.y = -0.215;
       th.add(kn);
       kn.position.y = -L1;
+      if (capri) {
+        const cover = add(th, new THREE.Mesh(new THREE.CapsuleGeometry(0.076, 0.3, 3, 8), shortsMat));
+        cover.position.y = -0.225;
+        const cuff = add(kn, new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.058, 0.11, 8), shortsMat));
+        cuff.position.y = -0.05;
+      }
       const shin = add(kn, new THREE.Mesh(new THREE.CapsuleGeometry(0.05, 0.27, 3, 8), skin));
       shin.position.y = -0.2;
       const sock = add(kn, new THREE.Mesh(new THREE.CylinderGeometry(0.052, 0.048, 0.13, 8), white));
@@ -285,83 +286,65 @@ export class PlayerRig {
     leg(this.thR, this.knR, -0.1 * m);
     leg(this.thO, this.knO, 0.1 * m);
 
-    // Wooden racket: lies in the local x-y plane and extends along -y.
+    // Graphite racket: lies in the local x-y plane and extends along -y.
     const frame = lambert(look.racket);
+    const trim = lambert(look.racketTrim);
     const handle = add(this.racket, new THREE.Mesh(new THREE.CylinderGeometry(0.017, 0.019, 0.24, 8), lambert(look.grip)));
     handle.position.y = -0.07;
-    const throat = add(this.racket, new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.18, 6), frame));
-    throat.position.y = -0.27;
-    const hoop = add(this.racket, new THREE.Mesh(new THREE.TorusGeometry(0.125, 0.013, 6, 22), frame));
+    // Open throat: two arms from the handle to the hoop.
+    for (const s of [-1, 1]) {
+      const throat = add(this.racket, new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.013, 0.19, 6), trim));
+      throat.position.set(s * 0.036, -0.272, 0);
+      throat.rotation.z = s * 0.39;
+    }
+    const hoop = add(this.racket, new THREE.Mesh(new THREE.TorusGeometry(0.136, 0.014, 6, 24), frame));
     hoop.position.y = -0.5;
-    hoop.scale.set(0.88, 1.18, 1);
+    hoop.scale.set(0.9, 1.18, 1);
     const stringsTex = stringsTexture();
     this.textures.push(stringsTex);
     const strings = new THREE.Mesh(
-      new THREE.CircleGeometry(0.122, 20),
+      new THREE.CircleGeometry(0.133, 20),
       new THREE.MeshBasicMaterial({ map: stringsTex, transparent: true, side: THREE.DoubleSide, depthWrite: false }),
     );
     strings.position.y = -0.5;
-    strings.scale.set(0.88, 1.18, 1);
+    strings.scale.set(0.9, 1.18, 1);
     this.racket.add(strings);
   }
 
   private buildHair() {
     const look = this.look;
     const hair = new THREE.MeshLambertMaterial({ color: look.hair, flatShading: true });
+    const white = new THREE.MeshLambertMaterial({ color: 0xf4f2ea });
     const add = (mesh: THREE.Mesh) => {
       mesh.castShadow = true;
       this.head.add(mesh);
       return mesh;
     };
-    const band = (y: number, color: number, tube: number) => {
-      const t = add(new THREE.Mesh(new THREE.TorusGeometry(0.111, tube, 6, 20), new THREE.MeshLambertMaterial({ color })));
-      t.rotation.x = Math.PI / 2 - 0.12;
-      t.position.set(0, y, 0);
-      return t;
-    };
-    if (look.name === "borg") {
-      // Long, straight, shoulder-length blond hair under a striped headband.
-      const cap = add(new THREE.Mesh(new THREE.SphereGeometry(0.122, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hair));
-      cap.position.y = 0.105;
-      cap.scale.set(0.98, 1.1, 1.03);
-      const fall = add(
-        new THREE.Mesh(
-          new THREE.CylinderGeometry(0.124, 0.15, 0.27, 14, 1, true, Math.PI * 0.62, Math.PI * 1.76),
-          new THREE.MeshLambertMaterial({ color: look.hair, side: THREE.DoubleSide, flatShading: true }),
-        ),
-      );
-      fall.position.set(0, 0.0, -0.005);
-      fall.rotation.y = Math.PI;
-      band(0.155, 0xf4f2ea, 0.02);
-      band(0.163, 0xc8343a, 0.008);
-      band(0.147, 0x22346a, 0.008);
-      // Light beard.
-      const beard = add(
-        new THREE.Mesh(
-          new THREE.SphereGeometry(0.116, 12, 6, Math.PI * 0.12, Math.PI * 0.76, Math.PI * 0.62, Math.PI * 0.3),
-          new THREE.MeshLambertMaterial({ color: 0xb98e58 }),
-        ),
-      );
-      beard.position.y = 0.1;
-      beard.scale.set(0.97, 1.08, 1.02);
-    } else {
-      // A dense mop of dark curls above a red headband.
-      const curl = new THREE.IcosahedronGeometry(1, 1);
-      const spots: [number, number, number, number][] = [
-        [0, 0.215, 0.0, 0.085], [0.07, 0.2, 0.03, 0.07], [-0.07, 0.2, 0.03, 0.07],
-        [0.06, 0.2, -0.06, 0.075], [-0.06, 0.2, -0.06, 0.075], [0, 0.19, -0.1, 0.075],
-        [0.115, 0.15, -0.02, 0.062], [-0.115, 0.15, -0.02, 0.062],
-        [0.1, 0.12, -0.08, 0.065], [-0.1, 0.12, -0.08, 0.065],
-        [0, 0.12, -0.125, 0.075], [0.06, 0.06, -0.11, 0.06], [-0.06, 0.06, -0.11, 0.06],
-        [0.125, 0.09, -0.02, 0.05], [-0.125, 0.09, -0.02, 0.05],
-        [0.045, 0.205, 0.075, 0.05], [-0.045, 0.205, 0.075, 0.05], [0, 0.21, 0.085, 0.045],
-      ];
-      for (const [x, y, z, r] of spots) {
-        const c = add(new THREE.Mesh(curl, hair));
-        c.position.set(x, y, z);
-        c.scale.setScalar(r);
+    const long = look.name === "nadal";
+    const cap = add(new THREE.Mesh(new THREE.SphereGeometry(0.122, 14, 8, 0, Math.PI * 2, 0, Math.PI * 0.5), hair));
+    cap.position.y = 0.105;
+    cap.scale.set(0.98, 1.1, 1.03);
+    // Hair at the sides and back. The face stays open. Nadal: to the shoulders.
+    const len = long ? 0.27 : 0.15;
+    const fall = add(
+      new THREE.Mesh(
+        new THREE.CylinderGeometry(0.124, long ? 0.15 : 0.132, len, 14, 1, true, Math.PI * 0.62, Math.PI * 1.76),
+        new THREE.MeshLambertMaterial({ color: look.hair, side: THREE.DoubleSide, flatShading: true }),
+      ),
+    );
+    fall.position.set(0, 0.135 - len / 2, -0.005);
+    fall.rotation.y = Math.PI;
+    // White headband.
+    const band = add(new THREE.Mesh(new THREE.TorusGeometry(0.111, long ? 0.024 : 0.019, 6, 20), white));
+    band.rotation.x = Math.PI / 2 - 0.12;
+    band.position.y = 0.156;
+    if (long) {
+      // Bandana knot: two tails at the back.
+      for (const s of [-1, 1]) {
+        const tail = add(new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.12, 0.012), white));
+        tail.position.set(s * 0.025, 0.085, -0.142);
+        tail.rotation.set(0.18, 0, s * 0.28);
       }
-      band(0.158, 0xc4262e, 0.019);
     }
   }
 
@@ -485,25 +468,29 @@ export class PlayerRig {
 }
 
 export function createPlayers() {
-  const borg = new PlayerRig({
-    name: "borg",
+  // Federer: white polo, white headband, black and red frame.
+  const federer = new PlayerRig({
+    name: "federer",
     lefty: false,
-    skin: 0xd6a273,
-    hair: 0xd9b565,
-    shorts: 0xf4f1e6,
-    racket: 0x1b1b1d,
-    grip: 0x6b3a22,
+    skin: 0xddb08c,
+    hair: 0x3b2a1c,
+    shorts: 0xf6f5f0,
+    racket: 0x18181a,
+    racketTrim: 0xb3262c,
+    grip: 0xf1efe6,
     shoeAccent: 0xc9a23f,
   });
-  const mac = new PlayerRig({
-    name: "mac",
+  // Nadal: left-handed, sleeveless shirt, long shorts, yellow and black frame.
+  const nadal = new PlayerRig({
+    name: "nadal",
     lefty: true,
-    skin: 0xe7ba98,
-    hair: 0x3a2415,
+    skin: 0xc9906a,
+    hair: 0x2a1a10,
     shorts: 0xf6f5f0,
-    racket: 0xb07a43,
-    grip: 0x2b2118,
-    shoeAccent: 0x1f3566,
+    racket: 0xeec51f,
+    racketTrim: 0x18181a,
+    grip: 0xf1efe6,
+    shoeAccent: 0x18181a,
   });
-  return { borg, mac };
+  return { federer, nadal };
 }

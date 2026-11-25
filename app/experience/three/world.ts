@@ -121,12 +121,12 @@ export function createWorld(canvas: HTMLCanvasElement, opts: WorldOptions): Worl
   scene.add(areas.group);
 
   const rigs = createPlayers();
-  scene.add(rigs.mac.root, rigs.borg.root);
+  scene.add(rigs.nadal.root, rigs.federer.root);
 
   // Ball, its ground shadow, and the landing marker.
   const ball = new THREE.Mesh(
     new THREE.SphereGeometry(K.BALL_R, 14, 10),
-    new THREE.MeshLambertMaterial({ color: 0xfbfaf2, emissive: 0x55554a }),
+    new THREE.MeshLambertMaterial({ color: 0xdff03c, emissive: 0x4e5612 }),
   );
   scene.add(ball);
   const blob = new THREE.Mesh(
@@ -150,7 +150,7 @@ export function createWorld(canvas: HTMLCanvasElement, opts: WorldOptions): Worl
   let cheer = 0;
   const game = new Game(rigs, {
     onState: (s) => {
-      stadium.setScore({ borg: s.labels.borg, mac: s.labels.mac, serving: "mac" });
+      stadium.setScore({ federer: s.labels.federer, nadal: s.labels.nadal, serving: "nadal" });
       opts.onGameState(s);
     },
     onCall: (c) => opts.onCall(c),
@@ -196,8 +196,8 @@ export function createWorld(canvas: HTMLCanvasElement, opts: WorldOptions): Worl
 
     if (view === "play") {
       const follow = k > 0.5 ? 0.32 : 0.22;
-      out.pos.x += game.mac.x * follow;
-      vT.x += game.mac.x * follow * 0.8 + game.ball.p.x * 0.04;
+      out.pos.x += game.nadal.x * follow;
+      vT.x += game.nadal.x * follow * 0.8 + game.ball.p.x * 0.04;
     }
     if (!opts.reducedMotion) {
       const sway = view === "play" ? 0.03 : 0.12;
@@ -400,8 +400,8 @@ export function createWorld(canvas: HTMLCanvasElement, opts: WorldOptions): Worl
       sfx.dispose();
       stadium.dispose();
       areas.dispose();
-      rigs.mac.dispose();
-      rigs.borg.dispose();
+      rigs.nadal.dispose();
+      rigs.federer.dispose();
       ball.geometry.dispose();
       blob.geometry.dispose();
       marker.geometry.dispose();

@@ -135,7 +135,7 @@ export default function MatchHud({
           ? "Run to the yellow ring. Swing as the ball arrives. Hold a direction to aim."
           : "";
 
-  const won = snap?.winner === "mac";
+  const won = snap?.winner === "nadal";
 
   return (
     <div className="match">
@@ -158,17 +158,17 @@ export default function MatchHud({
           </div>
           <div className="sb-row">
             <span className="sb-name">
-              <i /> Borg
+              <i /> Federer
             </span>
             <span className="sb-games">7</span>
-            <span className="sb-pts">{snap.labels.borg}</span>
+            <span className="sb-pts">{snap.labels.federer}</span>
           </div>
           <div className="sb-row">
             <span className="sb-name">
-              <i className="on" /> McEnroe
+              <i className="on" /> Nadal
             </span>
-            <span className="sb-games">6</span>
-            <span className="sb-pts">{snap.labels.mac}</span>
+            <span className="sb-games">8</span>
+            <span className="sb-pts">{snap.labels.nadal}</span>
           </div>
         </div>
       )}
@@ -202,7 +202,7 @@ export default function MatchHud({
 
       {phase === "idle" && (
         <div className="card" role="dialog" aria-label="Play match">
-          <p className="kicker">Centre Court · 5 July 1980 · Final</p>
+          <p className="kicker">Centre Court · 6 July 2008 · Final</p>
           <h1>Play match</h1>
           {failed ? (
             <p className="prose">
@@ -211,8 +211,8 @@ export default function MatchHud({
           ) : (
             <>
               <p className="prose">
-                Fifth set. Borg leads 7 games to 6. You are McEnroe, and it is your serve.
-                Win this one game to stay in the final.
+                Fifth set. Nadal leads 8 games to 7. You are Nadal, and it is your serve.
+                Win this one game to win the title.
               </p>
               <ul className="controls">
                 <li>
@@ -275,12 +275,12 @@ export default function MatchHud({
 
       {phase === "over" && (
         <div className="card card-result" role="dialog" aria-label="Result">
-          <p className="kicker">{won ? "Seven games all" : "1–6, 7–5, 6–3, 6–7, 8–6"}</p>
-          <h1>{won ? "Game, McEnroe" : "Game, set and match, Borg"}</h1>
+          <p className="kicker">{won ? "6–4, 6–4, 6–7, 6–7, 9–7" : "Eight games all"}</p>
+          <h1>{won ? "Game, set and match, Nadal" : "Game, Federer"}</h1>
           <p className="prose">
             {won
-              ? "You held serve against Borg on Centre Court. The fifth set goes on."
-              : "The same result as 5 July 1980. Borg wins his fifth title in a row."}
+              ? "The same result as 6 July 2008. Nadal wins his first Wimbledon title."
+              : "Federer broke your serve on Centre Court. The fifth set goes on."}
           </p>
           <div className="card-actions">
             <button type="button" className="btn btn-primary" onClick={start}>

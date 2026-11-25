@@ -340,7 +340,7 @@ function officials() {
   b.box(0.9, 0.08, 0.9, 0x24452f, ux, 1.9, 0);
   b.box(0.08, 0.7, 0.9, 0x24452f, ux + 0.42, 2.25, 0);
   for (let i = 0; i < 4; i++) b.box(0.5, 0.04, 0.05, 0x24452f, ux - 0.45, 0.4 + i * 0.4, 0);
-  figure(b, ux + 0.1, 0, -Math.PI / 2, { top: 0x2c4f3c, bottom: 0xd9d2bd, seated: true, y: 1.45 });
+  figure(b, ux + 0.1, 0, -Math.PI / 2, { top: 0x1c2a4a, bottom: 0xe6dfca, seated: true, y: 1.45 });
 
   // Player benches, towels, the water cooler.
   for (const s of [-1, 1]) {
@@ -350,8 +350,8 @@ function officials() {
     b.box(0.3, 0.3, 0.6, s > 0 ? 0xb0282e : 0x1f3f7a, ux + 0.25, 0.15, s * 2.0);
   }
 
-  // Line judges, in the green jackets and hats of the era.
-  const lj = { top: 0x35603f, bottom: 0xd9d2bd, hat: 0xe9e3cf, seated: true };
+  // Line judges, in the navy blazers and cream caps worn from 2006.
+  const lj = { top: 0x1c2a4a, bottom: 0xe6dfca, hat: 0xece6d2, seated: true };
   const chair = (x: number, z: number) => b.box(0.44, 0.45, 0.44, 0x1c3a2b, x, 0.225, z);
   const judges: [number, number, number][] = [
     [-K.SINGLES_W, K.ARENA_Z - 1.2, Math.PI],
@@ -370,8 +370,8 @@ function officials() {
     figure(b, x, z, f, lj);
   }
 
-  // Ball kids in purple and green.
-  const kid = { top: 0x4b2a6b, bottom: 0x1f4a36 };
+  // Ball kids in navy.
+  const kid = { top: 0x1d2b55, bottom: 0x1d2b55 };
   figure(b, -K.NET_POST_X - 0.7, 0.5, Math.PI / 2, { ...kid, kneel: true });
   figure(b, K.NET_POST_X + 2.2, -0.9, -Math.PI / 2, { ...kid, kneel: true });
   for (const sx of [-1, 1]) {
@@ -451,7 +451,7 @@ function crowd(nodes: Node[], spacing: number, uniforms: CrowdUniforms) {
   const s = new THREE.Vector3();
   const p = new THREE.Vector3();
   const c = new THREE.Color();
-  // A 1980 summer crowd: mostly whites, creams and pastels.
+  // A summer crowd: mostly whites, creams and pastels.
   const clothes = [
     0xf3efe4, 0xeee6d2, 0xe8e2d4, 0xfaf7ee, 0xcfdcea, 0xa9c4de, 0x7fa3c7,
     0xe9c7c9, 0xd98a8f, 0xf0dc9a, 0xb9d4b4, 0x27406b, 0x1f2f4d, 0x9c2f35,
@@ -554,9 +554,9 @@ export type CrowdUniforms = {
 };
 
 export type ScoreboardState = {
-  borg: string;
-  mac: string;
-  serving: "mac" | "borg";
+  federer: string;
+  nadal: string;
+  serving: "nadal" | "federer";
 };
 
 function drawScoreboard(
@@ -602,8 +602,8 @@ function drawScoreboard(
     ctx.fillStyle = "#fff3b0";
     ctx.fillText(pts, 664, y);
   };
-  row(128, "BORG", ["1", "7", "6", "6"], "7", s.borg, s.serving === "borg");
-  row(212, "McENROE", ["6", "5", "3", "7"], "6", s.mac, s.serving === "mac");
+  row(128, "FEDERER", ["4", "4", "7", "7"], "7", s.federer, s.serving === "federer");
+  row(212, "NADAL", ["6", "6", "6", "6"], "8", s.nadal, s.serving === "nadal");
   ctx.strokeStyle = "rgba(244,207,42,0.35)";
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -690,7 +690,7 @@ export function buildStadium(opts: { lowPower: boolean }): Stadium {
     drawScoreboard(sbCtx, sbCanvas.width, sbCanvas.height, s);
     sbTex.needsUpdate = true;
   };
-  setScore({ borg: "0", mac: "0", serving: "mac" });
+  setScore({ federer: "0", nadal: "0", serving: "nadal" });
   const sbMat = new THREE.MeshBasicMaterial({ map: sbTex });
   const boardBuilder = new Builder();
   for (const sx of [-1, 1]) {

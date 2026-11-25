@@ -1,6 +1,6 @@
 # hanskamin.com
 
-The site is one 3D scene: a stylised Centre Court, as in the 1980 final. The page opens on a TV view of the court. Borg and McEnroe rally in the background.
+The site is one 3D scene: a stylised Centre Court, as in the 2008 final. The page opens on a TV view of the court. Federer and Nadal rally in the background.
 
 | Route | Camera goes to | Content |
 | --- | --- | --- |
@@ -8,7 +8,7 @@ The site is one 3D scene: a stylised Centre Court, as in the 1980 final. The pag
 | `/music` | The bandstand (north stand) | Releases and the player |
 | `/software` | The press box (west stand) | Career, stack, links |
 | `/volunteering` | The royal box (south stand) | Photographs and text |
-| `/play` | Behind McEnroe | One game against a computer-controlled Borg |
+| `/play` | Behind Nadal | One game against a computer-controlled Federer |
 
 ## Run
 

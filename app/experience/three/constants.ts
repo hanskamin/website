@@ -1,5 +1,5 @@
-// World units are metres. The net is on z = 0. McEnroe plays on +z (near the
-// TV camera), Borg on -z.
+// World units are metres. The net is on z = 0. Nadal plays on +z (near the
+// TV camera), Federer on -z.
 
 export const HALF_LEN = 11.885;
 export const HALF_W = 5.485;

@@ -3,7 +3,7 @@ import * as K from "./constants";
 import { PlayerRig, type AnimName } from "./players";
 import { netHeightAt } from "./stadium";
 
-export type Who = "mac" | "borg";
+export type Who = "nadal" | "federer";
 export type Mode = "demo" | "match";
 export type Phase = "idle" | "serve" | "toss" | "rally" | "point" | "over";
 export type Call = { title: string; sub: string; tone: "good" | "bad" | "neutral" };
@@ -65,7 +65,7 @@ const gauss = () => {
   return (u - 2) * 1.73;
 };
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
-const other = (w: Who): Who => (w === "mac" ? "borg" : "mac");
+const other = (w: Who): Who => (w === "nadal" ? "federer" : "nadal");
 
 export function pointLabels(p: number, c: number): [string, string] {
   if (p >= 3 && c >= 3) {
@@ -79,7 +79,7 @@ export function pointLabels(p: number, c: number): [string, string] {
 export class Game {
   mode: Mode = "demo";
   phase: Phase = "idle";
-  points: Record<Who, number> = { mac: 0, borg: 0 };
+  points: Record<Who, number> = { nadal: 0, federer: 0 };
   serveNo: 1 | 2 = 1;
   winner: Who | null = null;
   now = 0;
@@ -88,14 +88,14 @@ export class Game {
     p: new THREE.Vector3(0, 1, 12),
     v: new THREE.Vector3(),
     state: "held" as "held" | "toss" | "live" | "dead",
-    lastHit: "mac" as Who,
+    lastHit: "nadal" as Who,
     bounces: 0,
     isServe: false,
     touched: false,
   };
   marker = { visible: false, x: 0, z: 0 };
-  mac: Actor;
-  borg: Actor;
+  nadal: Actor;
+  federer: Actor;
 
   private input = { x: 0, y: 0 };
   private nextAt = 0;
@@ -111,7 +111,7 @@ export class Game {
   private keepServeNo = false;
 
   constructor(
-    rigs: { mac: PlayerRig; borg: PlayerRig },
+    rigs: { nadal: PlayerRig; federer: PlayerRig },
     private listener: GameListener,
   ) {
     const actor = (id: Who, rig: PlayerRig, face: 1 | -1): Actor => ({
@@ -131,8 +131,8 @@ export class Game {
       plan: null,
       reactAt: 0,
     });
-    this.mac = actor("mac", rigs.mac, -1);
-    this.borg = actor("borg", rigs.borg, 1);
+    this.nadal = actor("nadal", rigs.nadal, -1);
+    this.federer = actor("federer", rigs.federer, 1);
     this.setMode("demo");
   }
 
@@ -140,28 +140,28 @@ export class Game {
 
   setMode(mode: Mode) {
     this.mode = mode;
-    this.points = { mac: 0, borg: 0 };
+    this.points = { nadal: 0, federer: 0 };
     this.winner = null;
     this.serveNo = 1;
     this.listener.onCall(null);
     this.marker.visible = false;
     if (mode === "demo") {
-      this.mac.cpu = true;
-      this.mac.maxSpeed = 4.5;
-      this.borg.maxSpeed = 4.5;
-      this.borg.err = 1;
+      this.nadal.cpu = true;
+      this.nadal.maxSpeed = 4.5;
+      this.federer.maxSpeed = 4.5;
+      this.federer.err = 1;
       this.startPoint();
     } else {
       // Wait at the baseline until the visitor starts the game.
-      this.mac.cpu = false;
-      this.mac.maxSpeed = 6.8;
-      this.borg.maxSpeed = 4.1;
-      this.borg.err = 1.15;
+      this.nadal.cpu = false;
+      this.nadal.maxSpeed = 6.8;
+      this.federer.maxSpeed = 4.1;
+      this.federer.err = 1.15;
       this.phase = "idle";
       this.ball.state = "held";
-      this.mac.plan = this.borg.plan = null;
-      this.mac.rig.stop();
-      this.borg.rig.stop();
+      this.nadal.plan = this.federer.plan = null;
+      this.nadal.rig.stop();
+      this.federer.rig.stop();
       this.placeForServe();
     }
     this.emit();
@@ -169,7 +169,7 @@ export class Game {
 
   startMatch() {
     this.mode = "match";
-    this.points = { mac: 0, borg: 0 };
+    this.points = { nadal: 0, federer: 0 };
     this.winner = null;
     this.serveNo = 1;
     this.listener.onCall(null);
@@ -185,9 +185,9 @@ export class Game {
 
   /** The single action button: toss, serve, or swing. */
   swing() {
-    if (this.mode !== "match" || this.mac.cpu) return;
+    if (this.mode !== "match" || this.nadal.cpu) return;
     if (this.phase === "serve") {
-      if (Math.hypot(this.mac.x - this.mac.goalX, this.mac.z - this.mac.goalZ) < 4.2) {
+      if (Math.hypot(this.nadal.x - this.nadal.goalX, this.nadal.z - this.nadal.goalZ) < 4.2) {
         this.beginToss();
       }
       return;
@@ -197,7 +197,7 @@ export class Game {
       return;
     }
     if (this.phase !== "rally" || this.now < this.swingBusyUntil) return;
-    const a = this.mac;
+    const a = this.nadal;
     const b = this.ball;
     const near = a.z < 6 && b.bounces === 0;
     const speed = near ? 1.4 : 1;
@@ -213,12 +213,12 @@ export class Game {
   }
 
   snapshot(): GameSnapshot {
-    const [m, b] = pointLabels(this.points.mac, this.points.borg);
+    const [m, b] = pointLabels(this.points.nadal, this.points.federer);
     return {
       mode: this.mode,
       phase: this.phase,
       points: { ...this.points },
-      labels: { mac: m, borg: b },
+      labels: { nadal: m, federer: b },
       serveNo: this.serveNo,
       winner: this.winner,
     };
@@ -231,17 +231,17 @@ export class Game {
   // ── Point flow ─────────────────────────────────────────────────────────
 
   private serveSide() {
-    const deuce = (this.points.mac + this.points.borg) % 2 === 0;
-    // Where the server (McEnroe) stands, as an x sign.
-    return (deuce ? 1 : -1) * -this.mac.face;
+    const deuce = (this.points.nadal + this.points.federer) % 2 === 0;
+    // Where the server (Nadal) stands, as an x sign.
+    return (deuce ? 1 : -1) * -this.nadal.face;
   }
 
   private placeForServe() {
     const sx = this.serveSide();
-    this.mac.goalX = sx * 1.2;
-    this.mac.goalZ = K.HALF_LEN + 0.65;
-    this.borg.goalX = -sx * 3.1;
-    this.borg.goalZ = -(K.HALF_LEN + 0.9);
+    this.nadal.goalX = sx * 1.2;
+    this.nadal.goalZ = K.HALF_LEN + 0.65;
+    this.federer.goalX = -sx * 3.1;
+    this.federer.goalZ = -(K.HALF_LEN + 0.9);
   }
 
   private startPoint() {
@@ -250,7 +250,7 @@ export class Game {
     this.phase = "serve";
     this.ball.state = "held";
     this.ball.bounces = 0;
-    this.mac.plan = this.borg.plan = null;
+    this.nadal.plan = this.federer.plan = null;
     this.serveContactAt = 0;
     this.serveHitAt = 0;
     this.marker.visible = false;
@@ -264,12 +264,12 @@ export class Game {
     this.tossAt = this.now;
     this.serveContactAt = 0;
     this.serveHitAt = 0;
-    this.mac.rig.play("toss");
+    this.nadal.rig.play("toss");
     this.emit();
   }
 
   private serveHit() {
-    this.mac.rig.play("serveHit");
+    this.nadal.rig.play("serveHit");
     this.serveContactAt = this.now + PlayerRig.contactTime("serveHit");
   }
 
@@ -314,7 +314,7 @@ export class Game {
     b.touched = false;
     this.phase = "rally";
     this.listener.onSound("serve", 0.9);
-    this.planFor(a.id === "mac" ? this.borg : this.mac);
+    this.planFor(a.id === "nadal" ? this.federer : this.nadal);
     this.emit();
   }
 
@@ -342,24 +342,24 @@ export class Game {
     b.state = "dead";
     this.marker.visible = false;
     this.points[who]++;
-    this.mac.plan = this.borg.plan = null;
-    const { mac, borg } = this.points;
+    this.nadal.plan = this.federer.plan = null;
+    const { nadal, federer } = this.points;
     let sub: string;
     let won: Who | null = null;
-    if (mac >= 4 && mac - borg >= 2) won = "mac";
-    else if (borg >= 4 && borg - mac >= 2) won = "borg";
-    if (won) sub = `Game, ${won === "mac" ? "McEnroe" : "Borg"}`;
-    else if (mac >= 3 && borg >= 3) {
-      sub = mac === borg ? "Deuce" : `Advantage ${mac > borg ? "McEnroe" : "Borg"}`;
+    if (nadal >= 4 && nadal - federer >= 2) won = "nadal";
+    else if (federer >= 4 && federer - nadal >= 2) won = "federer";
+    if (won) sub = `Game, ${won === "nadal" ? "Nadal" : "Federer"}`;
+    else if (nadal >= 3 && federer >= 3) {
+      sub = nadal === federer ? "Deuce" : `Advantage ${nadal > federer ? "Nadal" : "Federer"}`;
     } else {
       const names = ["Love", "15", "30", "40"];
-      sub = mac === borg ? `${names[mac]} all` : `${names[mac]} – ${names[borg]}`;
+      sub = nadal === federer ? `${names[nadal]} all` : `${names[nadal]} – ${names[federer]}`;
     }
-    if (close && this.mode === "match" && who === "borg") sub = "“You cannot be serious!”";
+    if (close && this.mode === "match" && who === "federer") sub = "Hawk-Eye confirms the call";
     this.winner = won;
     this.phase = "point";
     this.nextAt = this.now + (won ? 3.2 : 2.7);
-    const tone = this.mode === "demo" ? "neutral" : who === "mac" ? "good" : "bad";
+    const tone = this.mode === "demo" ? "neutral" : who === "nadal" ? "good" : "bad";
     this.listener.onCall({ title, sub, tone });
     this.listener.onCheer(won ? 1 : 0.7);
     this.listener.onSound("applause", won ? 1 : 0.7);
@@ -368,7 +368,7 @@ export class Game {
 
   private landingOk(x: number, z: number): { ok: boolean; reason: string } {
     const b = this.ball;
-    const targetSide = b.lastHit === "mac" ? -1 : 1;
+    const targetSide = b.lastHit === "nadal" ? -1 : 1;
     if (Math.sign(z) !== targetSide) return { ok: false, reason: "NET" };
     const r = K.BALL_R;
     if (b.isServe) {
@@ -460,9 +460,9 @@ export class Game {
   }
 
   private cpuShot(a: Actor, stretch: number) {
-    const o = a.id === "mac" ? this.borg : this.mac;
+    const o = a.id === "nadal" ? this.federer : this.nadal;
     const vsHuman = !o.cpu;
-    // Now and then, go for the lines. Against a visitor, Borg plays with more
+    // Now and then, go for the lines. Against a visitor, Federer plays with more
     // margin and more loop, which gives time to reach the ball.
     const bold = Math.random() < (vsHuman ? 0.1 : 0.3);
     const wide = vsHuman ? (bold ? 3.2 : 2.7) : bold ? 3.85 : 3.45;
@@ -516,7 +516,7 @@ export class Game {
     b.state = "live";
     a.plan = null;
     this.listener.onSound("hit", volume);
-    this.planFor(a.id === "mac" ? this.borg : this.mac);
+    this.planFor(a.id === "nadal" ? this.federer : this.nadal);
   }
 
   private canHit(a: Actor) {
@@ -538,15 +538,15 @@ export class Game {
     const now = this.now;
     const b = this.ball;
 
-    if (this.phase === "serve" && this.mac.cpu) {
+    if (this.phase === "serve" && this.nadal.cpu) {
       const ready =
-        Math.hypot(this.mac.x - this.mac.goalX, this.mac.z - this.mac.goalZ) < 0.3 &&
-        Math.hypot(this.borg.x - this.borg.goalX, this.borg.z - this.borg.goalZ) < 0.6;
+        Math.hypot(this.nadal.x - this.nadal.goalX, this.nadal.z - this.nadal.goalZ) < 0.3 &&
+        Math.hypot(this.federer.x - this.federer.goalX, this.federer.z - this.federer.goalZ) < 0.6;
       if (now > this.serveReadyAt && (ready || now > this.serveReadyAt + 2.5)) this.beginToss();
     }
 
     if (this.phase === "toss") {
-      const a = this.mac;
+      const a = this.nadal;
       if (b.state === "held" && now >= this.tossAt + 0.3) {
         a.rig.offHandPosition(b.p);
         b.p.y = Math.max(b.p.y, 1.7);
@@ -584,7 +584,7 @@ export class Game {
       this.listener.onCall(null);
       if (this.winner) {
         if (this.mode === "demo") {
-          this.points = { mac: 0, borg: 0 };
+          this.points = { nadal: 0, federer: 0 };
           this.winner = null;
           this.startPoint();
         } else {
@@ -596,13 +596,13 @@ export class Game {
       }
     }
 
-    this.updateActor(this.mac, dt);
-    this.updateActor(this.borg, dt);
+    this.updateActor(this.nadal, dt);
+    this.updateActor(this.federer, dt);
 
     // The visitor's swing meets the ball inside the contact window. An early
     // swing waits for the ball to arrive, so that timing is forgiving.
-    if (!this.mac.cpu && now >= this.contactFrom && now <= this.contactTo && this.canHit(this.mac)) {
-      const a = this.mac;
+    if (!this.nadal.cpu && now >= this.contactFrom && now <= this.contactTo && this.canHit(this.nadal)) {
+      const a = this.nadal;
       const dx = b.p.x - a.x;
       const dz = b.p.z - a.z - a.face * 0.25;
       const arrived = dz * -a.face >= -0.3;
@@ -624,11 +624,11 @@ export class Game {
     const h = dt / steps;
     for (let i = 0; i < steps; i++) this.stepBall(h);
 
-    this.mac.rig.update(dt, this.mac.x, this.mac.z, this.mac.vx, this.mac.vz, this.mac.face, b.p);
-    this.borg.rig.update(dt, this.borg.x, this.borg.z, this.borg.vx, this.borg.vz, this.borg.face, b.p);
+    this.nadal.rig.update(dt, this.nadal.x, this.nadal.z, this.nadal.vx, this.nadal.vz, this.nadal.face, b.p);
+    this.federer.rig.update(dt, this.federer.x, this.federer.z, this.federer.vx, this.federer.vz, this.federer.face, b.p);
     if (b.state === "held") {
-      this.mac.rig.root.updateMatrixWorld(true);
-      this.mac.rig.offHandPosition(b.p);
+      this.nadal.rig.root.updateMatrixWorld(true);
+      this.nadal.rig.offHandPosition(b.p);
       b.v.set(0, 0, 0);
     }
   }
@@ -664,7 +664,7 @@ export class Game {
           gx = a.goalX;
         }
       }
-      if (this.phase === "toss" && a.id === "mac") top = 0;
+      if (this.phase === "toss" && a.id === "nadal") top = 0;
       const dx = gx - a.x;
       const dz = gz - a.z;
       const d = Math.hypot(dx, dz);
@@ -788,7 +788,7 @@ export class Game {
             Math.abs(b.p.x) - K.SINGLES_W,
             Math.abs(b.p.z) - K.HALF_LEN,
           );
-          this.award(other(b.lastHit), res.reason, res.reason !== "NET" && margin < 0.3 && b.lastHit === "mac");
+          this.award(other(b.lastHit), res.reason, res.reason !== "NET" && margin < 0.3 && b.lastHit === "nadal");
         }
       }
     } else if (b.bounces === 2) {
