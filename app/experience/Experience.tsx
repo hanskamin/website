@@ -260,8 +260,6 @@ export default function Experience() {
 
       <div className="loader" aria-hidden={ready}>
         <div className="loader-ball" />
-        <div className="loader-title">Centre Court</div>
-        <div className="loader-sub">Walking out to the grass…</div>
       </div>
     </div>
   );
