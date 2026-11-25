@@ -324,27 +324,6 @@ button {
     transform: scaleY(1);
   }
 }
-.ticker {
-  display: flex;
-  gap: 18px;
-  margin: 0;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
-}
-.ticker div {
-  display: flex;
-  gap: 8px;
-  white-space: nowrap;
-}
-.ticker dt {
-  color: var(--gold);
-}
-.ticker dd {
-  margin: 0;
-}
-
 /* ── Home: lower third and channels ───────────────────────────── */
 .home {
   position: absolute;
@@ -368,7 +347,7 @@ button {
 }
 .lower-third {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 18px;
   min-width: 0;
 }
@@ -388,27 +367,18 @@ button {
 .lt-text {
   min-width: 0;
 }
+/* The negative top margin removes the space above the capitals, so the top
+   of the name is level with the top of the photo. Playfair Display: line
+   height 0.92, ascent 1.082, descent 0.251, cap height 0.708. Space above
+   the capitals = (0.92 - 1.333) / 2 + 1.082 - 0.708 = 0.1675em. */
 .lt-name {
-  margin: 4px 0 6px;
+  margin: -0.1675em 0 6px;
   font-family: var(--display);
   font-weight: 900;
   font-size: clamp(46px, 6.6vw, 104px);
   line-height: 0.92;
   letter-spacing: -0.01em;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
-}
-.lt-trail {
-  margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--cream-dim);
-}
-.trail-full {
-  white-space: nowrap;
-}
-.trail-short {
-  display: none;
 }
 .lt-links {
   display: flex;
@@ -1219,21 +1189,9 @@ button {
 }
 
 /* ── Small screens ────────────────────────────────────────────── */
-@media (max-width: 1320px) {
-  .trail-full {
-    display: none;
-  }
-  .trail-short {
-    display: inline;
-  }
-}
-
 @media (max-width: 1180px) {
   .channels {
     grid-template-columns: repeat(2, minmax(140px, 180px));
-  }
-  .ticker-wide {
-    display: none !important;
   }
 }
 
@@ -1257,9 +1215,6 @@ button {
     font-size: 10px;
     letter-spacing: 0.14em;
   }
-  .lt-trail {
-    display: none;
-  }
   .channels {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -1269,13 +1224,6 @@ button {
   }
   .ch-name {
     font-size: 20px;
-  }
-  .ticker {
-    gap: 12px;
-    font-size: 10px;
-  }
-  .ticker div:first-child {
-    display: none;
   }
   .view-home .shade {
     background: linear-gradient(
@@ -1387,7 +1335,6 @@ button {
     align-items: flex-end;
     gap: 14px;
   }
-  .lt-trail,
   .lt-links {
     display: none;
   }
@@ -1396,7 +1343,7 @@ button {
     height: 52px;
   }
   .lt-name {
-    margin: 0 0 2px;
+    margin-bottom: 2px;
     font-size: 34px;
   }
   .channels {

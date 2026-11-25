@@ -14,7 +14,6 @@ import MusicPanel from "./ui/MusicPanel";
 import SoftwarePanel from "./ui/SoftwarePanel";
 import VolunteeringPanel from "./ui/VolunteeringPanel";
 import MatchHud from "./ui/MatchHud";
-import StatusTicker from "./ui/StatusTicker";
 
 const VIEWS: Record<string, ViewId> = {
   "/": "home",
@@ -217,7 +216,7 @@ export default function Experience() {
               <span className="chip-text">{track.title}</span>
             </Link>
           )}
-          {view === "play" ? (
+          {view === "play" && (
             <button
               type="button"
               className="chip"
@@ -226,8 +225,6 @@ export default function Experience() {
             >
               Sound {muted ? "off" : "on"}
             </button>
-          ) : (
-            <StatusTicker />
           )}
         </div>
       </header>

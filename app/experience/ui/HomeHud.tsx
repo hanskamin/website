@@ -19,12 +19,6 @@ export default function HomeHud() {
         </div>
         <div className="lt-text">
           <h1 className="lt-name">Hans Kamin</h1>
-          <p className="lt-trail">
-            <span className="trail-full">
-              New Jersey → San Luis Obispo → Miami → New York City → Austin
-            </span>
-            <span className="trail-short">NJ → SLO → MIA → NYC → ATX</span>
-          </p>
           <nav className="lt-links" aria-label="Contact">
             {CONTACT_LINKS.map((l) => (
               <a key={l.href} href={l.href} target="_blank" rel="noreferrer">
