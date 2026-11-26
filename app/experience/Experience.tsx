@@ -65,11 +65,7 @@ export default function Experience() {
         const small = window.innerWidth < 820;
         handle = createWorld(canvas, {
           monitors: TIMELINE.map((t) => ({ year: t.year, role: t.role, co: t.co })),
-          stack: STACK.map((s) =>
-            s.tag === "FRONT" || s.tag === "BACK"
-              ? s.label.toUpperCase()
-              : `${s.tag} ${s.label.toUpperCase()}`,
-          ),
+          stack: STACK.map((s) => s.label.toUpperCase()),
           photos: VOL_PHOTOS.map((p) => photoUrl(p.src, small ? 828 : 1200)),
           reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
           onPick: (kind, index) => {
